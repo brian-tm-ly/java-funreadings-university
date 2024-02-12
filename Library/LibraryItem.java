@@ -27,9 +27,9 @@ public class LibraryItem {
         yearOfPublication = otherLibraryItem.yearOfPublication;
     }
 
-    public int getID() 
+    public String getID() 
     {
-        return ID;
+        return "L" + ID;
     }
 
     public String getName() 
@@ -52,6 +52,7 @@ public class LibraryItem {
         this.yearOfPublication = yearOfPublication;
     }
 
+    @Override
     public boolean equals(Object otherObject) 
     {
         if (otherObject == null)
@@ -66,9 +67,10 @@ public class LibraryItem {
 
     }
 
+    @Override
     public String toString() {
         return "This library item's ID# is " + ID + ".\nIts name is " + name + 
-        ".\n Its year of publication is " +  yearOfPublication;
+        ".\n It was published in " +  yearOfPublication + ".";
     }
     
 }
