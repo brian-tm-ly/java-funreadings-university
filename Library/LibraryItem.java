@@ -2,34 +2,25 @@ package Library;
 
 public class LibraryItem {
 
-    protected static int ID = 0;
     protected String name;
     protected int yearOfPublication;
 
     public LibraryItem() 
     {
-        ID++;
         name = "";
         yearOfPublication = 0;
     }
 
     public LibraryItem(String name, int yearOfPublication) 
     {
-        ID++;
         this.name = name;
         this.yearOfPublication = yearOfPublication;
     }
 
     public LibraryItem(LibraryItem otherLibraryItem) 
     {
-        ID++;
         name = otherLibraryItem.name;
         yearOfPublication = otherLibraryItem.yearOfPublication;
-    }
-
-    public String getID() 
-    {
-        return "L" + ID;
     }
 
     public String getName() 
