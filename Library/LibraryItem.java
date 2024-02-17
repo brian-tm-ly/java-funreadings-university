@@ -60,7 +60,7 @@ public class LibraryItem {
 
     @Override
     public String toString() {
-        return "This library item's ID# is " + ID + ".\nIts name is " + name + 
+        return "This library item's name is " + name + 
         ".\n It was published in " +  yearOfPublication + ".";
     }
     
