@@ -1,10 +1,13 @@
 package Client;
 
+import Library.*;
+
 public class Client {
     private static int clientID = 0;
     private String name;
     private int phoneNum;
     private String email;
+    private LibraryItem[] leasedItems;
 
     public Client() 
     {
@@ -63,6 +66,36 @@ public class Client {
     public void setEmail(String email) 
     {
         this.email = email;
+    }
+
+    public String getLeasedItems() 
+    {
+        String leasedItemsString = "";
+        for(int i = 0; i < leasedItems.length; i++)
+        {
+            if (i == leasedItems.length - 1) 
+            {
+                leasedItemsString += leasedItems[i].getName();
+            } else {
+                leasedItemsString += leasedItems[i].getName() + ", ";
+            }
+        }
+        return leasedItemsString;
+    }
+
+    public void leaseItem(LibraryItem item)
+    {   
+        LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length + 1];
+        
+        for(int i = 0; i < leasedItems.length; i++)
+        {
+            if(leasedItems[i] == null)
+            {
+                newLeasedItems[i] = leasedItems[i];
+            }
+        }
+        newLeasedItems[leasedItems.length] = item;
+
     }
 
     public boolean equals(Object otherObject)

@@ -71,10 +71,16 @@ public class Driver {
                 case 2:
                     System.out.println("Which item would you like to delete? Please enter its ID.");
                     String itemToDelete = keyIn.next();
+                    while(!(itemToDelete.contains("B") || itemToDelete.contains("J") || itemToDelete.contains("M")))
+                    {
+                        System.out.println("Invalid input. Please try again.");
+                        itemToDelete = keyIn.next();
+                    }
                     for(int i = 0; i < library.length; i++)
                     {
                         deleteItem(library, itemToDelete);
                     }
+                    break;
 
 
 
