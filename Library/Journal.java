@@ -1,32 +1,41 @@
 package Library;
 
 public class Journal extends LibraryItem {
-    private static int journalID = 0;
+    private static int numJournals = 0;
+    private String journalID;
     private int volumeNum;
 
     public Journal() 
     {
-        journalID ++;
+        numJournals ++;
         volumeNum = 0;
+        journalID = "J" + numJournals;
     }
 
     public Journal(String name, int yearOfPublication, int volumeNum)
     {
         super(name, yearOfPublication);
-        journalID++;
+        numJournals++;
         this.volumeNum = volumeNum;
+        journalID = "J" + numJournals;
     }
 
     public Journal(Journal otherJournal)
     {
         super(otherJournal.name, otherJournal.yearOfPublication);
-        journalID++;
+        numJournals++;
         volumeNum = otherJournal.volumeNum;
+        journalID = "J" + numJournals;
+    }
+
+    public static int getNumJournals()
+    {
+        return numJournals;
     }
 
     public String getJournalID()
     {
-        return "J" + journalID;
+        return journalID;
     }
 
     public int getVolumeNum() 
@@ -57,8 +66,8 @@ public class Journal extends LibraryItem {
     @Override
     public String toString()
     {
-        return "This journal's ID is " + journalID + ".\nIts name is " + name + ".\nIt was published in " 
-        + yearOfPublication + ".\nIts volume number is " + volumeNum + ".";
+        return "This journal's ID is " + journalID + ". Its name is " + name + ". It was published in " 
+        + yearOfPublication + ". Its volume number is " + volumeNum + ".";
     }
     
 }

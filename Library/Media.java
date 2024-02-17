@@ -1,32 +1,41 @@
 package Library;
 
 public class Media extends LibraryItem {
-    private static int mediaID = 0;
+    private static int numMedia = 0;
+    private String mediaID;
     private String type;
 
     public Media()
     {
-        mediaID++;
+        numMedia++;
         type = "";
+        mediaID = "M" + numMedia;
     }
 
     public Media(String name, int yearOfPublication, String type)
     {
         super(name, yearOfPublication);
-        mediaID++;
+        numMedia++;
         this.type = type;
+        mediaID = "M" + numMedia;
     }
     
     public Media(Media otherMedia)
     {
         super(otherMedia.name, otherMedia.yearOfPublication);
-        mediaID++;
+        numMedia++;
         type = otherMedia.type;
+        mediaID = "M" + numMedia;
+    }
+
+    public static int getNumMedia()
+    {
+        return  numMedia;
     }
 
     public String getMediaID()
     {
-        return "M" + mediaID;
+        return mediaID;
     }
 
     public String getType() {
@@ -55,7 +64,7 @@ public class Media extends LibraryItem {
     @Override
     public String toString()
     {
-        return "This media's ID is " + mediaID + "\nIt is " + type + ".\nIts name is " + name + ".\nIt was published in " 
+        return "This media's ID is " + mediaID + ". Its name is " + name + ". It is " + type +  ". It was published in " 
         + yearOfPublication + ".";
     }
     

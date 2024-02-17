@@ -3,7 +3,8 @@ package Client;
 import Library.*;
 
 public class Client {
-    private static int clientID = 0;
+    private static int numClients = 0;
+    private String clientID;
     private String name;
     private int phoneNum;
     private String email;
@@ -11,31 +12,39 @@ public class Client {
 
     public Client() 
     {
-        clientID++;
+        numClients++;
         name = "";
         phoneNum = 11111111;
         email = "";
+        clientID = "C" + numClients;
     }
 
     public Client(String name, int phoneNum, String email)
     {
-        clientID++;
+        numClients++;
         this.name = name;
         this.phoneNum = phoneNum;
         this.email = email;
+        clientID = "C" + numClients;
     }
 
     public Client(Client otherClient)
     {
-        clientID++;
+        numClients++;
         name = otherClient.name;
         phoneNum = otherClient.phoneNum;
         email = otherClient.email;
+        clientID = "C" + numClients;
+    }
+
+    public int getNumClients()
+    {
+        return numClients;
     }
 
     public String getClientID()
     {
-        return "C" + clientID;
+        return clientID;
     }
 
     public String getName() 
@@ -115,7 +124,7 @@ public class Client {
     @Override
     public String toString()
     {
-        return "This client's ID is " + clientID + ".\nTheir phone number is " 
+        return "This client's ID is " + numClients + ".\nTheir phone number is " 
             + phoneNum + ".\nTheir email is " + email;
     }
 

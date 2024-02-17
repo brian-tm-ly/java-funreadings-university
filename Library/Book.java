@@ -1,33 +1,43 @@
 package Library;
 
 public class Book extends LibraryItem {
-    private static int bookID = 0;
+    private static int numBooks = 0;
+    private String bookID;
     private int numberOfPages;
 
     public Book()
     {
-        bookID++;
+        numBooks++;
         numberOfPages = 0;
+        bookID = "B" + numBooks;
     }
 
     public Book(String name, int yearOfPublication, int numberOfPages)
     {
         super(name, yearOfPublication);
-        bookID ++;
+        numBooks ++;
         this.numberOfPages = numberOfPages;
+        bookID = "B" + numBooks;
+            
     }
 
     public Book(Book otherBook)
     {
         super(otherBook.name, otherBook.yearOfPublication);
-        bookID++;
+        numBooks++;
         numberOfPages = otherBook.numberOfPages;
+        bookID = "B" + numBooks;
 
+    }
+
+    public static int getNumBooks()
+    {
+        return numBooks;
     }
 
     public String getBookID()
     {
-        return "B" + bookID;
+        return bookID;
     }
 
     public int getNumberOfPages() {
@@ -56,8 +66,8 @@ public class Book extends LibraryItem {
     @Override
     public String toString()
     {
-        return "This book's ID is " + bookID + ".\nIts name is " + name + ".\n It was published in " 
-        + yearOfPublication + ".\nIt has " + numberOfPages + " of pages.";
+        return "This book's ID is " + bookID+ ". Its name is " + name + ". It was published in " 
+        + yearOfPublication + ". It has " + numberOfPages + " of pages.";
     }
     
 }
