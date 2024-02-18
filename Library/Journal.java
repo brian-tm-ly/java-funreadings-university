@@ -33,7 +33,8 @@ public class Journal extends LibraryItem {
         return numJournals;
     }
 
-    public String getJournalID()
+    @Override
+    public String getID()
     {
         return journalID;
     }
@@ -66,8 +67,7 @@ public class Journal extends LibraryItem {
     @Override
     public String toString()
     {
-        return "This journal's ID is " + journalID + ". Its name is " + name + ". It was published in " 
-        + yearOfPublication + ". Its volume number is " + volumeNum + ".";
+        return journalID + ": " + name + ". Published in " + yearOfPublication + ". Its volume number is " + volumeNum + ".";
     }
     
 }

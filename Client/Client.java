@@ -92,10 +92,12 @@ public class Client {
         return leasedItemsString;
     }
 
-    public void leaseItem(LibraryItem item)
+    public void leaseItem(LibraryItem[] library, String itemID)
     {   
         LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length + 1];
-        
+        LibraryItem[] availableLibrary = new LibraryItem[library.length];
+        int leasedItemIndex;
+
         for(int i = 0; i < leasedItems.length; i++)
         {
             if(leasedItems[i] == null)
@@ -103,7 +105,47 @@ public class Client {
                 newLeasedItems[i] = leasedItems[i];
             }
         }
-        newLeasedItems[leasedItems.length] = item;
+       
+        if (itemID.charAt(0) == 'B')
+        {
+            for(int i = 0; i < library.length; i++)
+            {
+                if(((Book) library[i]).getID().equals(itemID))
+                {
+                    newLeasedItems[leasedItems.length] = library[i];
+                    leasedItemIndex = i;
+                    library[i] = null;
+                }
+                availableLibrary[library.length] = library[i];
+            }
+        } 
+        else if (itemID.charAt(0) == 'M')
+        {
+            for(int i = 0; i < library.length; i++)
+            {
+                if(((Media) library[i]).getID().equals(itemID))
+                {
+                    newLeasedItems[leasedItems.length] = library[i];
+                    leasedItemIndex = i;
+                    library[i] = null;
+                }
+                availableLibrary[library.length] = library[i];
+            }
+        } 
+        else if (itemID.charAt(0) == 'J')
+        {
+            for(int i = 0; i < library.length; i++)
+            {
+                if(((Journal) library[i]).getID().equals(itemID))
+                {
+                    newLeasedItems[leasedItems.length] = library[i];
+                    leasedItemIndex = i;
+                    library[i] = null;
+                }
+                availableLibrary[library.length] = library[i];
+            }
+        }
+        
 
     }
 

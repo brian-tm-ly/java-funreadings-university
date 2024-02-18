@@ -29,13 +29,14 @@ public class Book extends LibraryItem {
         bookID = "B" + numBooks;
 
     }
-
+    
     public static int getNumBooks()
     {
         return numBooks;
     }
 
-    public String getBookID()
+    @Override
+    public String getID()
     {
         return bookID;
     }
@@ -66,8 +67,7 @@ public class Book extends LibraryItem {
     @Override
     public String toString()
     {
-        return "This book's ID is " + bookID+ ". Its name is " + name + ". It was published in " 
-        + yearOfPublication + ". It has " + numberOfPages + " of pages.";
+        return bookID+ ": " + name + ". Published in " + yearOfPublication + ". It has " + numberOfPages + " pages.";
     }
     
 }

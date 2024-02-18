@@ -2,25 +2,44 @@ package Library;
 
 public class LibraryItem {
 
+    private static int numLibraryItems = 0;
     protected String name;
+    protected String ID;
     protected int yearOfPublication;
 
     public LibraryItem() 
     {
         name = "";
         yearOfPublication = 0;
+        numLibraryItems++;
+        ID = "L" + numLibraryItems;
     }
 
     public LibraryItem(String name, int yearOfPublication) 
     {
         this.name = name;
         this.yearOfPublication = yearOfPublication;
+        numLibraryItems++;
+        ID = "L" + numLibraryItems;
     }
 
     public LibraryItem(LibraryItem otherLibraryItem) 
     {
         name = otherLibraryItem.name;
         yearOfPublication = otherLibraryItem.yearOfPublication;
+        numLibraryItems++;
+        ID = "L" + numLibraryItems;
+    }
+
+    public String getID()
+    {
+        return ID;
+    }
+    
+
+    public static int getNumLibraryItems() 
+    {
+        return numLibraryItems;
     }
 
     public String getName() 
@@ -60,8 +79,7 @@ public class LibraryItem {
 
     @Override
     public String toString() {
-        return "This library item's name is " + name + 
-        ".\n It was published in " +  yearOfPublication + ".";
+        return "This library item's name is " + name + ". It was published in " +  yearOfPublication + ".";
     }
     
 }

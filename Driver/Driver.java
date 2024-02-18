@@ -1,5 +1,6 @@
 package Driver;
 import Library.*;
+import Client.Client;
 import java.util.Scanner;
 
 public class Driver {
@@ -12,6 +13,7 @@ public class Driver {
         String junkString;
         int menuChoice=0;
         int remainingItems = 0;
+        Client[] clients = new Client[0];
 
         System.out.println("Would you like to run the program or see a demo?" +
             " (Please enter y to run the program or n to see a demo.)");
@@ -57,9 +59,28 @@ public class Driver {
                         System.out.println("Which category would you like to list? (book, journal, or media)");
                         itemChoice = getValidItemChoice();
                         displayItemInfo(library, itemChoice);
+                        break;
 
                     case 5:
                         displayLibraryInfo(library);
+                        break;
+
+                    case 6:
+                        addClient(clients);
+                        break;
+                    
+                    case 7:
+                        editClient(clients);
+                        break;
+                    
+                    case 8:
+                        deleteClient(clients);
+                        break;
+                    
+                    case 9:
+                        System.out.println("Which client would you like to lease to? Please enter their ID.");
+
+                        //leaseItem(library, itemID);
                         break;
 
                     case 15:
@@ -90,18 +111,122 @@ public class Driver {
 
 
 
+    private static void deleteClient(Client[] clients) {
+        System.out.println("Which client would you like to delete? Please enter their ID.");
+        Scanner keyIn = new Scanner(System.in);
+        String clientID = keyIn.next();
+        Client[] newClients = new Client[clients.length];
+        int j = 0;
+        for(int i = 0; i < clients.length; i++)
+        {
+            if(clients[i] != null)
+            {
+                if(clientID.equals(clients[i].getClientID()))
+                {
+                    clients[i] = null;
+                }
+            }
+        }
+        for(int i = 0; i < clients.length; i++)
+        {
+            if(clients[i] != null)
+            {
+                newClients[j] = clients[i];
+                j++;
+            }
+        }
+
+        clients = newClients;
+    }
+
+    private static void editClient(Client[] clients) {
+        System.out.println("Which client would you like to update? Please enter their ID.");
+        Scanner keyIn = new Scanner(System.in);
+        String clientID = keyIn.next();
+        int updateChoice = 0;
+        for(int i = 0; i < clients.length; i++)
+        {
+            if(clients[i] != null)
+            {
+                if(clientID.equals(clients[i].getClientID()))
+                {
+                    do {
+                        updateClientMenu();
+                        updateChoice = keyIn.nextInt();
+                        switch(updateChoice)
+                        {
+                            case 1:
+                                System.out.println("What is the new name of the client?");
+                                String newName = keyIn.nextLine();
+                                String junkString = keyIn.nextLine();
+                                clients[i].setName(newName);
+                                break;
+                            case 2:
+                                System.out.println("What is the new phone number of the client?");
+                                int newPhone = keyIn.nextInt();
+                                clients[i].setPhoneNum(newPhone);
+                                break;
+                            case 3:
+                                System.out.println("What is the new email of the client?");
+                                String newEmail = keyIn.next();
+                                clients[i].setEmail(newEmail);
+                                break;
+                            case 4:
+                                break;
+                            default:
+                                System.out.println("Invalid input. Please try again.");
+                                break;
+                        }
+                    } while(updateChoice!=4);
+                }
+            }
+        }
+    }
+
+
+    private static void updateClientMenu() {
+        System.out.print("\nWhat information would you like to change?" +
+        "\n\t1. Name\n\t2. Phone number\n\t3. Email\n\t4. Quit\nEnter your choice > ");
+    }
+
+
+
+    private static void addClient(Client[] clients) {
+        Scanner keyIn = new Scanner(System.in);
+        Client[] newClients = new Client[clients.length+1];
+        System.out.println("What is the client's name?");
+        String clientName = keyIn.next();
+        System.out.println("What is the client's phone number?");
+        int clientPhone = keyIn.nextInt();
+        System.out.println("What is the client's email?");
+        String clientEmail = keyIn.next();
+
+        for(int i = 0; i < clients.length; i++)
+        {
+            if(clients[i] != null)
+            {
+                newClients[i] = clients[i];
+            }
+        }
+        newClients[clients.length] = new Client(clientName, clientPhone, clientEmail);
+        clients = newClients;
+    }
+
+
+
     private static void displayItemInfo(LibraryItem[] library, String itemChoice) {
         char itemType = itemChoice.charAt(0);
         boolean itemFound = true;
         switch(itemType) 
         {
             case 'b':
+                System.out.println("Books in the library:");
                 for(int i = 0; i < library.length; i++) 
                 {
-                    if(library[i] != null && library[i] instanceof Book) {
+                    if(library[i] != null && library[i].getClass() == Book.class) {
                         System.out.println(library[i].toString());
                     }
-                    else if (library[i] != null && !(library[i] instanceof Book))
+                    else if (library[i] != null && !(library[i].getClass() == Book.class))
                     {
                         itemFound = false;
                     }
@@ -109,12 +234,13 @@ public class Driver {
                 break;
 
             case 'j':
+                System.out.println("Journals in the library:");
                 for(int i = 0; i < library.length; i++) 
                 {
-                    if(library[i] != null && library[i] instanceof Journal) {
+                    if(library[i] != null && library[i].getClass() == Journal.class) {
                         System.out.println(library[i].toString());
                     }
-                    else if (library[i] != null && !(library[i] instanceof Journal))
+                    else if (library[i] != null && !(library[i].getClass()== Journal.class))
                     {
                         itemFound = false;
                     }
@@ -123,12 +249,13 @@ public class Driver {
                 break;
 
             case 'm':
+                System.out.println("Media in the library:");
                 for(int i = 0; i < library.length; i++) 
                 {
-                    if(library[i] != null && library[i] instanceof Media) {
+                    if(library[i] != null && library[i].getClass()== Media.class) {
                         System.out.println(library[i].toString());
                     }
-                    else if (library[i] != null && !(library[i] instanceof Media))
+                    else if (library[i] != null && !(library[i].getClass() == Media.class))
                     {
                         itemFound = false;
                     }
@@ -172,7 +299,7 @@ public class Driver {
             }
            
         }
-        if (library[0] == null)
+        if (findRemainingSpaces(library) == library.length)
         {
             System.out.println("There are no items in the library.");
         }
@@ -202,12 +329,9 @@ public class Driver {
                     {
                         if(library[i] != null)
                         {   
-                            if(library[i].getClass() == Book.class)
-                            {    
-                                if(itemID.equals( ((Book)library[i]).getBookID()))
-                                {
-                                    (library[i]).setName(newName);
-                                }
+                            if(itemID.equals(library[i].getID()))
+                            {
+                                (library[i]).setName(newName);
                             }
                         }
                     }
@@ -218,15 +342,11 @@ public class Driver {
                     int newYear = keyIn.nextInt();
                     for(int i = 0; i < library.length; i++)
                     {
-                        
                         if(library[i] != null)
-                        {   
-                            if(library[i].getClass() == Book.class)
-                            {    
-                                if(itemID.equals( ((Book)library[i]).getBookID()))
-                                {
-                                    (library[i]).setYearOfPublication(newYear);
-                                }
+                        {     
+                            if(itemID.equals(library[i].getID()))
+                            {
+                                (library[i]).setYearOfPublication(newYear);
                             }
                         }
                     }
@@ -241,7 +361,7 @@ public class Driver {
                         {   
                             if(library[i].getClass() == Book.class)
                             {    
-                                if(itemID.equals( ((Book)library[i]).getBookID()))
+                                if(itemID.equals( ((Book)library[i]).getID()))
                                 {
                                     ((Book)library[i]).setNumberOfPages(newPages);
                                 }
@@ -275,13 +395,10 @@ public class Driver {
                         for(int i = 0; i < library.length; i++)
                         {
                             if(library[i] != null)
-                            {   
-                                if(library[i].getClass() == Journal.class)
-                                {    
-                                    if(itemID.equals( ((Journal)library[i]).getJournalID()))
-                                    {
-                                        (library[i]).setName(newName);
-                                    }
+                            {      
+                                if (itemID.equals(library[i].getID()))
+                                {
+                                    (library[i]).setName(newName);
                                 }
                             }
                         }
@@ -293,13 +410,10 @@ public class Driver {
                         for(int i = 0; i < library.length; i++)
                         {
                             if(library[i] != null)
-                            {    
-                                if(library[i].getClass() == Journal.class)
-                                {    
-                                    if(itemID.equals( ((Journal)library[i]).getJournalID()))
-                                    {
-                                        (library[i]).setYearOfPublication(newYear);
-                                    }
+                            {       
+                                if(itemID.equals(library[i].getID()))
+                                {
+                                    (library[i]).setYearOfPublication(newYear);
                                 }
                             }
                         }
@@ -314,7 +428,7 @@ public class Driver {
                             {   
                                 if(library[i].getClass() == Journal.class)
                                 {    
-                                    if(itemID.equals( ((Journal)library[i]).getJournalID()))
+                                    if(itemID.equals( ((Journal)library[i]).getID()))
                                     {
                                         ((Journal)library[i]).setVolumeNum(newVolume);
                                     }
@@ -348,13 +462,10 @@ public class Driver {
                         for(int i = 0; i < library.length; i++)
                         {
                             if(library[i] != null)
-                            {
-                                if(library[i].getClass() == Media.class)
-                                {    
-                                    if(itemID.equals( ((Media)library[i]).getMediaID()))
-                                    {
-                                        (library[i]).setName(newName);
-                                    }
+                            {  
+                                if(itemID.equals( library[i].getID()))
+                                {
+                                    (library[i]).setName(newName);
                                 }
                             }
                             
@@ -366,13 +477,10 @@ public class Driver {
                         for(int i = 0; i < library.length; i++)
                         {
                             if(library[i] != null)
-                            {
-                                if(library[i].getClass() == Media.class)
-                                {     
-                                    if(itemID.equals( ((Media)library[i]).getMediaID()))
-                                    {
-                                        (library[i]).setYearOfPublication(newYear);
-                                    }
+                            {   
+                                if(itemID.equals( library[i].getID()))
+                                {
+                                    (library[i]).setYearOfPublication(newYear);
                                 }
                             }
                         }
@@ -386,7 +494,7 @@ public class Driver {
                             {
                                 if(library[i].getClass() == Media.class)
                                 {    
-                                    if(itemID.equals( ((Media)library[i]).getMediaID()))
+                                    if(itemID.equals( ((Media)library[i]).getID()))
                                     {
                                         ((Media)library[i]).setType(newType);
                                     }
@@ -394,9 +502,6 @@ public class Driver {
                             }
                         }
                         break;
-                    
-                    
-
                     
                 }
             } while(updateChoice!=4);
@@ -437,75 +542,81 @@ public class Driver {
     }
 
     private static void deleteItem(LibraryItem[] library, String itemToDelete) {
-        
+
         LibraryItem[] newLibrary;
-        if(library[0] != null)
+        int j =0;
+
+        if (findRemainingSpaces(library) == library.length)
+        {
+            System.out.println("There are no items in the library.");
+        }
+        else
         {
             newLibrary = new LibraryItem[library.length];
             if(itemToDelete.contains("B"))
             {
+                if (Book.getNumBooks() == 0)
+                {
+                    System.out.println("There are no books in this library.");
+                }
                 for(int i = 0; i < library.length; i++)
                 {
                     if(library[i] != null)
                     {     
-                        if(itemToDelete.equals( ((Book)library[i]).getBookID()))
+                        if(itemToDelete.equals( library[i].getID()))
                         {
                             library[i] = null;
                         }
-                        else
-                        {
-                            System.out.println("There are no books in this library.");
-                        }
+                        
                     }
                 }
             }
             else if(itemToDelete.contains("J"))
             {
+                if(Journal.getNumJournals() == 0)
+                {
+                    System.out.println("There are no journals in this library.");
+                }
                 for(int i = 0; i < library.length; i++)
                 {
                     if(library[i] != null)
                     {   
-                        if(itemToDelete.equals( ((Journal)library[i]).getJournalID()))
+                        if(itemToDelete.equals( library[i].getID()))
                         {
                             library[i] = null;
                         }
-                        else
-                        {
-                            System.out.println("There are no journals in this library.");
-                        }
+
                     }
                 }
             }
             else if(itemToDelete.contains("M"))
             {
+                if(Media.getNumMedia() == 0)
+                {
+                    System.out.println("There are no media items in this library.");
+                }
                 for(int i = 0; i < library.length; i++)
                 {
                     if(library[i] != null)
                     {   
-                        if(itemToDelete.equals( ((Media)library[i]).getMediaID()))
+                        if(itemToDelete.equals( library[i].getID()))
                         {
                             library[i] = null;
-                        }
-                        else
-                        {
-                            System.out.println("There are no media items in this library.");
                         }
                     }
                 }
             }
-
+        
             for(int i = 0; i < library.length; i++)
             {
                 if(library[i] != null)
                 {
-                    newLibrary[i] = library[i];
+                    newLibrary[j] = library[i];
+                    j++;
                 }
             }
             library = newLibrary;
-        }
-        else
-        {
-            System.out.println("There are no items in the library.");
+        
         }
 
     }

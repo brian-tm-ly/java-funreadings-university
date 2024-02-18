@@ -33,7 +33,8 @@ public class Media extends LibraryItem {
         return  numMedia;
     }
 
-    public String getMediaID()
+    @Override
+    public String getID()
     {
         return mediaID;
     }
@@ -64,8 +65,7 @@ public class Media extends LibraryItem {
     @Override
     public String toString()
     {
-        return "This media's ID is " + mediaID + ". Its name is " + name + ". It is " + type +  ". It was published in " 
-        + yearOfPublication + ".";
+        return mediaID + ": " + name + ". Published in "  + yearOfPublication + ". It is " + type +  "." ;
     }
     
 }
