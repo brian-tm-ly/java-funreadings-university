@@ -49,6 +49,7 @@ public class Book extends LibraryItem {
         this.numberOfPages = numberOfPages;
     }
 
+
     @Override
     public boolean equals(Object otherObject)
     {
@@ -69,5 +70,7 @@ public class Book extends LibraryItem {
     {
         return bookID+ ": " + name + ". Published in " + yearOfPublication + ". It has " + numberOfPages + " pages.";
     }
+
+    
     
 }

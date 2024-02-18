@@ -6,7 +6,7 @@ public class Client {
     private static int numClients = 0;
     private String clientID;
     private String name;
-    private int phoneNum;
+    private long phoneNum;
     private String email;
     private LibraryItem[] leasedItems;
 
@@ -17,15 +17,17 @@ public class Client {
         phoneNum = 11111111;
         email = "";
         clientID = "C" + numClients;
+        leasedItems = new LibraryItem[0];
     }
 
-    public Client(String name, int phoneNum, String email)
+    public Client(String name, long phoneNum, String email)
     {
         numClients++;
         this.name = name;
         this.phoneNum = phoneNum;
         this.email = email;
         clientID = "C" + numClients;
+        leasedItems = new LibraryItem[0];
     }
 
     public Client(Client otherClient)
@@ -35,9 +37,14 @@ public class Client {
         phoneNum = otherClient.phoneNum;
         email = otherClient.email;
         clientID = "C" + numClients;
+        
+        for(int i = 0; i < otherClient.leasedItems.length; i++)
+        {
+            leasedItems[i] = otherClient.leasedItems[i];
+        }
     }
 
-    public int getNumClients()
+    public static int getNumClients()
     {
         return numClients;
     }
@@ -57,7 +64,7 @@ public class Client {
         this.name = name;
     }
 
-    public int getPhoneNum() 
+    public long getPhoneNum() 
     {
         return phoneNum;
     }
@@ -80,13 +87,20 @@ public class Client {
     public String getLeasedItems() 
     {
         String leasedItemsString = "";
-        for(int i = 0; i < leasedItems.length; i++)
+        if(leasedItems.length == 0)
         {
-            if (i == leasedItems.length - 1) 
+            return "This client has no leased items.";
+        }
+        else
+        {
+            for(int i = 0; i < leasedItems.length; i++)
             {
-                leasedItemsString += leasedItems[i].getName();
-            } else {
-                leasedItemsString += leasedItems[i].getName() + ", ";
+                if (i == leasedItems.length - 1) 
+                {
+                    leasedItemsString += leasedItems[i].getName();
+                } else {
+                    leasedItemsString += leasedItems[i].getName() + ", ";
+                }
             }
         }
         return leasedItemsString;
@@ -96,11 +110,11 @@ public class Client {
     {   
         LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length + 1];
         LibraryItem[] availableLibrary = new LibraryItem[library.length];
-        int leasedItemIndex;
-
-        for(int i = 0; i < leasedItems.length; i++)
+        LibraryItem leasedItem = null;
+       
+        if (leasedItems.length != 0)
         {
-            if(leasedItems[i] == null)
+            for(int i = 0; i < leasedItems.length; i++)
             {
                 newLeasedItems[i] = leasedItems[i];
             }
@@ -110,43 +124,129 @@ public class Client {
         {
             for(int i = 0; i < library.length; i++)
             {
-                if(((Book) library[i]).getID().equals(itemID))
+                if(library[i] != null && library[i].getID().equals(itemID))
                 {
-                    newLeasedItems[leasedItems.length] = library[i];
-                    leasedItemIndex = i;
+                    leasedItem = library[i];
                     library[i] = null;
                 }
-                availableLibrary[library.length] = library[i];
-            }
-        } 
-        else if (itemID.charAt(0) == 'M')
-        {
-            for(int i = 0; i < library.length; i++)
-            {
-                if(((Media) library[i]).getID().equals(itemID))
-                {
-                    newLeasedItems[leasedItems.length] = library[i];
-                    leasedItemIndex = i;
-                    library[i] = null;
-                }
-                availableLibrary[library.length] = library[i];
             }
         } 
         else if (itemID.charAt(0) == 'J')
         {
             for(int i = 0; i < library.length; i++)
             {
-                if(((Journal) library[i]).getID().equals(itemID))
+                if(library[i] != null && library[i].getID().equals(itemID))
                 {
-                    newLeasedItems[leasedItems.length] = library[i];
-                    leasedItemIndex = i;
+                    leasedItem = library[i];
                     library[i] = null;
                 }
-                availableLibrary[library.length] = library[i];
+            }
+        }
+        else if (itemID.charAt(0) == 'M')
+        {
+            for(int i = 0; i < library.length; i++)
+            {
+                if(library[i] != null && library[i].getID().equals(itemID))
+                {
+                    leasedItem = library[i];
+                    library[i] = null;
+                }
+            }
+        } 
+        
+        newLeasedItems[newLeasedItems.length-1] = leasedItem;
+        leasedItems = newLeasedItems;
+
+        for(int i = 0; i < library.length; i++)
+        {
+            if(library[i] != null)
+            {
+                availableLibrary[i] = library[i];
+            }
+        }
+
+        library = availableLibrary;
+
+    }
+
+    public void returnItem(LibraryItem[] library, String itemID)
+    {
+        
+        LibraryItem returnedItem = null;
+        LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length - 1];
+        
+
+        if(leasedItems.length == 0)
+        {
+            System.out.println("This client has no leased items.");
+        }
+        else
+        {
+           for(int i = 0; i < leasedItems.length; i++)
+           {
+               if(leasedItems[i].getID().equals(itemID))
+               {
+                   returnedItem = leasedItems[i];
+                   leasedItems[i] = null;
+               }
+               else
+               {
+                   newLeasedItems[i] = leasedItems[i];
+               }
+           }
+
+           if (itemID.charAt(0) == 'B')
+            {
+                for(int i = 0; i < library.length; i++)
+                {
+                    if(library[i] == null)
+                    {
+                        library[i] = returnedItem;
+                        break;
+                    }
+                }
+            } 
+            else if (itemID.charAt(0) == 'J')
+            {
+                for(int i = 0; i < library.length; i++)
+                {
+                    if(leasedItems[i].getID().equals(itemID))
+                    {
+                        library[i] = returnedItem;
+                        break;
+                    }
+                }
+            }
+            else if (itemID.charAt(0) == 'M')
+            {
+                for(int i = 0; i < library.length; i++)
+                {
+                    if(leasedItems[i].getID().equals(itemID))
+                    {
+                        library[i] = returnedItem;
+                        break;
+                    }
+                }
+            } 
+            leasedItems = newLeasedItems;
+           
+        }
+    }
+
+    public void displayLeasedItems() {
+        
+        if(leasedItems.length == 0)
+        {
+            System.out.println("This client has no leased items.");
+        }
+        else
+        {
+            for(int i = 0; i < leasedItems.length; i++)
+            {
+                System.out.println(leasedItems[i].toString());   
             }
         }
         
-
     }
 
     public boolean equals(Object otherObject)
@@ -166,8 +266,10 @@ public class Client {
     @Override
     public String toString()
     {
-        return "This client's ID is " + numClients + ".\nTheir phone number is " 
-            + phoneNum + ".\nTheir email is " + email;
+        return "This client's ID is " + clientID + ". Their name is " + name + ". Their phone number is " 
+            + phoneNum + ". Their email is " + email;
     }
+
+   
 
 }

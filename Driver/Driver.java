@@ -9,11 +9,12 @@ public class Driver {
         Scanner keyIn = new Scanner(System.in);
         int maxItems = 0;
         String itemID;
+        int clientIndex;
         String itemChoice;
         String junkString;
         int menuChoice=0;
         int remainingItems = 0;
-        Client[] clients = new Client[0];
+        int maxClients = 0;
 
         System.out.println("Would you like to run the program or see a demo?" +
             " (Please enter y to run the program or n to see a demo.)");
@@ -24,6 +25,9 @@ public class Driver {
             "\nWhat is the maximum number of items for your inventory?");   
             maxItems = keyIn.nextInt();
             LibraryItem[] library = new LibraryItem[maxItems]; 
+            System.out.println("What is the maximum number of clients for your library?");
+            maxClients = keyIn.nextInt();
+            Client[] clients = new Client[maxClients];
             
             do {
                 displayMainMenu();
@@ -67,33 +71,92 @@ public class Driver {
 
                     case 6:
                         addClient(clients);
+                        for(int i = 0; i < clients.length; i++)
+                        {
+                            if(clients[i] != null)
+                            { 
+                                System.out.println(clients[i]);
+                            }
+                        }
                         break;
                     
                     case 7:
                         editClient(clients);
+                        for(int i = 0; i < clients.length; i++)
+                        {
+                            if(clients[i] != null)
+                            { 
+                                System.out.println(clients[i]);
+                            }
+                        }
                         break;
                     
                     case 8:
                         deleteClient(clients);
+                        for(int i = 0; i < clients.length; i++)
+                        {
+                            if(clients[i] != null)
+                            { 
+                                System.out.println(clients[i]);
+                            }
+                        }
                         break;
                     
                     case 9:
                         System.out.println("Which client would you like to lease to? Please enter their ID.");
-
-                        //leaseItem(library, itemID);
+                        clientIndex = getValidClientID();
+                        System.out.println("Which item would you like to lease? Please enter its ID.");
+                        itemID = getValidItemID();
+                        clients[clientIndex].leaseItem(library, itemID);
+                        break;
+                    
+                    case 10:
+                        System.out.println("Which client would you like to return the item for? Please enter their ID.");
+                        clientIndex = getValidClientID();
+                        System.out.println("Which item would you like to return? Please enter its ID.");
+                        itemID = getValidItemID();
+                        clients[clientIndex].returnItem(library, itemID);
+                        break;
+                    
+                    case 11:
+                        System.out.println("Which client would you like to see the leased items for? Please enter their ID.");
+                        clientIndex = getValidClientID();
+                        clients[clientIndex].displayLeasedItems();
+                        break;
+                    
+                    case 12:
+                        for(int i = 0; i < clients.length; i++)
+                        {
+                            if(clients[i] != null)
+                            {
+                                clients[i].displayLeasedItems();
+                            }
+                        }
+                        break;
+                    
+                    case 13:
+                        getBiggestBook(library);
+                        break;
+                    
+                    case 14:
+                        Book[] books = copyBooks(library);
+                        for(int i = 0; i < books.length; i++)
+                        {
+                            if(books[i] != null)
+                            {
+                                System.out.println(books[i].toString());
+                            }
+                        }
                         break;
 
                     case 15:
                         System.out.println("Thank you for using FunReadings Library! Goodbye!");
                         System.exit(0);   
-
                 }
             } while (menuChoice != 15);
 
         }
-       
-        
-
+  
         else if( keyIn.next().contains("n") || keyIn.next().contains("N") )
         {
 
@@ -111,12 +174,81 @@ public class Driver {
 
 
 
+    private static String getBiggestBook(LibraryItem[] library) {
+        int max = 0;
+        Book biggestBook = null;
+        Book[] books = new Book[library.length];
+        for (int i = 0; i < library.length; i++) {
+            if (library[i] != null && library[i].getClass() == Book.class) 
+            {
+                books[i] = (Book) library[i];
+            }
+        }
+
+        max = books[0].getNumberOfPages();
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] != null && books[i].getNumberOfPages() > max) {
+                max = books[i].getNumberOfPages();
+                biggestBook = books[i];
+            }
+        }
+
+        return "The biggest book is " + biggestBook.getName() + ".";
+    }
+    private static Book[] copyBooks(LibraryItem[] books) {
+        
+        Book[] copyOfBooks = new Book[books.length];
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] != null && books[i].getClass() == Book.class) 
+            {
+                copyOfBooks[i] = (Book) books[i];
+            }
+        }
+        return copyOfBooks;
+    }
+
+
+
+    private static int getValidClientID() {
+        Scanner keyIn = new Scanner(System.in);
+        String clientID = keyIn.next();
+        
+        while(!(clientID.contains("C")))
+        {
+            System.out.println("Invalid input. Please try again.");
+            clientID = keyIn.next();
+        }
+        int clientIndex = Integer.parseInt(clientID.substring(1))-1;
+        return clientIndex;
+    }
+
+
+
+
+
     private static void deleteClient(Client[] clients) {
         System.out.println("Which client would you like to delete? Please enter their ID.");
         Scanner keyIn = new Scanner(System.in);
         String clientID = keyIn.next();
-        Client[] newClients = new Client[clients.length];
-        int j = 0;
+
+        if(Client.getNumClients() == 0)
+        {
+            System.out.println("There are no clients in this library.");
+        }
+        else
+        {
+            for(int i = 0; i < clients.length; i++)
+            {
+                if(clients[i] != null)
+                {
+                    if(clientID.equals(clients[i].getClientID()))
+                    {
+                        clients[i] = null;
+                    }
+                }
+            }
+        }
+
         for(int i = 0; i < clients.length; i++)
         {
             if(clients[i] != null)
@@ -127,16 +259,7 @@ public class Driver {
                 }
             }
         }
-        for(int i = 0; i < clients.length; i++)
-        {
-            if(clients[i] != null)
-            {
-                newClients[j] = clients[i];
-                j++;
-            }
-        }
-
-        clients = newClients;
+        
     }
 
     private static void editClient(Client[] clients) {
@@ -144,40 +267,48 @@ public class Driver {
         Scanner keyIn = new Scanner(System.in);
         String clientID = keyIn.next();
         int updateChoice = 0;
-        for(int i = 0; i < clients.length; i++)
+
+        if(Client.getNumClients() ==0)
         {
-            if(clients[i] != null)
+            System.out.println("There are no clients in this library.");
+        }
+        else
+        {
+            for(int i = 0; i < clients.length; i++)
             {
-                if(clientID.equals(clients[i].getClientID()))
+                if(clients[i] != null)
                 {
-                    do {
-                        updateClientMenu();
-                        updateChoice = keyIn.nextInt();
-                        switch(updateChoice)
-                        {
-                            case 1:
-                                System.out.println("What is the new name of the client?");
-                                String newName = keyIn.nextLine();
-                                String junkString = keyIn.nextLine();
-                                clients[i].setName(newName);
-                                break;
-                            case 2:
-                                System.out.println("What is the new phone number of the client?");
-                                int newPhone = keyIn.nextInt();
-                                clients[i].setPhoneNum(newPhone);
-                                break;
-                            case 3:
-                                System.out.println("What is the new email of the client?");
-                                String newEmail = keyIn.next();
-                                clients[i].setEmail(newEmail);
-                                break;
-                            case 4:
-                                break;
-                            default:
-                                System.out.println("Invalid input. Please try again.");
-                                break;
-                        }
-                    } while(updateChoice!=4);
+                    if(clientID.equals(clients[i].getClientID()))
+                    {
+                        do {
+                            updateClientMenu();
+                            updateChoice = keyIn.nextInt();
+                            switch(updateChoice)
+                            {
+                                case 1:
+                                    System.out.println("What is the new name of the client?");
+                                    String junkString = keyIn.nextLine();
+                                    String newName = keyIn.nextLine();
+                                    clients[i].setName(newName);
+                                    break;
+                                case 2:
+                                    System.out.println("What is the new phone number of the client?");
+                                    int newPhone = keyIn.nextInt();
+                                    clients[i].setPhoneNum(newPhone);
+                                    break;
+                                case 3:
+                                    System.out.println("What is the new email of the client?");
+                                    String newEmail = keyIn.next();
+                                    clients[i].setEmail(newEmail);
+                                    break;
+                                case 4:
+                                    break;
+                                default:
+                                    System.out.println("Invalid input. Please try again.");
+                                    break;
+                            }
+                        } while(updateChoice!=4);
+                    }
                 }
             }
         }
@@ -193,23 +324,22 @@ public class Driver {
 
     private static void addClient(Client[] clients) {
         Scanner keyIn = new Scanner(System.in);
-        Client[] newClients = new Client[clients.length+1];
-        System.out.println("What is the client's name?");
-        String clientName = keyIn.next();
-        System.out.println("What is the client's phone number?");
-        int clientPhone = keyIn.nextInt();
-        System.out.println("What is the client's email?");
+        System.out.println("Please enter the name of the client."); 
+        String clientName = keyIn.nextLine();
+        System.out.println("Please enter the phone number of the client.");
+        long clientPhone = keyIn.nextLong();
+        System.out.println("Please enter the email of the client.");
         String clientEmail = keyIn.next();
+        int indexOfNextClient = Client.getNumClients();
 
-        for(int i = 0; i < clients.length; i++)
+        if(clients[clients.length-1] == null)
         {
-            if(clients[i] != null)
-            {
-                newClients[i] = clients[i];
-            }
+            clients[indexOfNextClient] = new Client(clientName, clientPhone, clientEmail);
         }
-        newClients[clients.length] = new Client(clientName, clientPhone, clientEmail);
-        clients = newClients;
+        else
+        {
+            System.out.println("The client list is full. You cannot add any more clients.");
+        }
     }
 
 
