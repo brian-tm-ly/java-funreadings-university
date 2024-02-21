@@ -7,6 +7,7 @@ public class Driver {
     public static void main(String[] args) {
         
         Scanner keyIn = new Scanner(System.in);
+        String input;
         int maxItems = 0;
         String itemID;
         int clientIndex;
@@ -18,10 +19,12 @@ public class Driver {
 
         System.out.println("Would you like to run the program or see a demo?" +
             " (Please enter y to run the program or n to see a demo.)");
-
-        if( keyIn.next().equalsIgnoreCase("y") || keyIn.next().equalsIgnoreCase("Y") )
+        input = keyIn.next();
+        
+        if(input.equalsIgnoreCase("y"))
         {
-            System.out.println("Welcome to the FunReadings Library! " +
+            System.out.println("Welcome to the FunReadings Library! To get started, the inventory space"
+            + "and limit of clients will need to be entered." +
             "\nWhat is the maximum number of items for your inventory?");   
             maxItems = keyIn.nextInt();
             LibraryItem[] library = new LibraryItem[maxItems]; 
@@ -31,7 +34,7 @@ public class Driver {
             
             do {
                 displayMainMenu();
-                menuChoice = keyIn.nextInt();
+                menuChoice = getValidMenuChoice();
 
             
                 switch(menuChoice)
@@ -104,7 +107,7 @@ public class Driver {
                     
                     case 9:
                         System.out.println("Which client would you like to lease to? Please enter their ID.");
-                        clientIndex = getValidClientID();
+                        clientIndex = getValidClientIndex();
                         System.out.println("Which item would you like to lease? Please enter its ID.");
                         itemID = getValidItemID();
                         clients[clientIndex].leaseItem(library, itemID);
@@ -112,7 +115,7 @@ public class Driver {
                     
                     case 10:
                         System.out.println("Which client would you like to return the item for? Please enter their ID.");
-                        clientIndex = getValidClientID();
+                        clientIndex = getValidClientIndex();
                         System.out.println("Which item would you like to return? Please enter its ID.");
                         itemID = getValidItemID();
                         clients[clientIndex].returnItem(library, itemID);
@@ -120,7 +123,7 @@ public class Driver {
                     
                     case 11:
                         System.out.println("Which client would you like to see the leased items for? Please enter their ID.");
-                        clientIndex = getValidClientID();
+                        clientIndex = getValidClientIndex();
                         clients[clientIndex].displayLeasedItems();
                         break;
                     
@@ -135,7 +138,7 @@ public class Driver {
                         break;
                     
                     case 13:
-                        getBiggestBook(library);
+                        System.out.println(getBiggestBook(library));
                         break;
                     
                     case 14:
@@ -157,9 +160,109 @@ public class Driver {
 
         }
   
-        else if( keyIn.next().contains("n") || keyIn.next().contains("N") )
+        else if(input.equalsIgnoreCase("n"))
         {
+            System.out.println("Welcome to the FunReadings Library Demo! The inventory space "
+            + "and limit of clients have been automatically set to 100, respectively.");
+            maxItems = 100;
+            LibraryItem[] library = new LibraryItem[maxItems];
+            maxClients = 100;
+            Client[] clients = new Client[maxClients];
+            Book book1 = new Book("The Great Gatsby", 1925, 180);
+            Book book2 = new Book("To Kill a Mockingbird", 1960, 281);
+            Book book3 = new Book("1984", 1949, 328);
+            Book book4 = new Book(book1);
+            Journal journal1 = new Journal("Nature", 1869, 1);
+            Journal journal2 = new Journal("Science", 1880, 2);
+            Journal journal3 = new Journal("The Lancet", 1823, 3);
+            Journal journal4 = new Journal(journal1);
+            Media media1 = new Media("The Shawshank Redemption", 1994, "video");
+            Media media2 = new Media("The Godfather", 1972, "video");
+            Media media3 = new Media("The Dark Knight", 2008, "video");
+            Media media4 = new Media(media1);
+            Book[] books = {book1, book2, book3, book4};
+            Journal[] journals = {journal1, journal2, journal3, journal4};
+            Media[] media = {media1, media2, media3, media4};
+            LibraryItem[] libraryDemo = {book1, book2, book3, book4, journal1, journal2, journal3, journal4, media1, media2, media3, media4};
 
+            System.out.println("\nHere are the books in the library.");
+            for(int i = 0; i < books.length; i++)
+            {
+                System.out.println(books[i]);
+            }
+
+            System.out.println("\nHere are the journals in the library.");
+            for(int i = 0; i < journals.length; i++)
+            {
+                System.out.println(journals[i]);
+            }
+
+            System.out.println("\nHere are the media items in the library.");
+            for(int i = 0; i < media.length; i++)
+            {
+                System.out.println(media[i]);
+            }
+
+            if(book1.equals(book2))
+            {
+                System.out.println(book1.getID() + " and " + book2.getID() + "are the same.");
+            }
+            else
+            {
+                System.out.println(book1.getID() + " and " + book2.getID() + " are not the same.");
+            
+            }
+
+            if(book1.equals(book4))
+            {
+                System.out.println(book1.getID() + " and " + book4.getID() + " are the same.");
+            }
+            else
+            {
+                System.out.println(book1.getID() + " and " + book4.getID() + " are not the same.");
+            }
+
+            if(book1.equals(journal1))
+            {
+                System.out.println(book1.getID() + " and " + journal1.getID() + " are the same.");
+            }
+            else
+            {
+                System.out.println(book1.getID() + " and " + journal1.getID() + " are not the same.");
+            }
+
+            if(journal1.equals(media1))
+            {
+                System.out.println(journal1.getID() + " and " + media1.getID() + " are the same.");
+            }
+            else
+            {
+                System.out.println(journal1.getID() + " and " + media1.getID() + " are not the same.");
+            }
+
+            if(journal1.equals(journal4))
+            {
+                System.out.println(journal1.getID() + " and " + journal4.getID() + " are the same.");
+            }
+            else
+            {
+                System.out.println(journal1.getID() + " and " + journal4.getID() + " are not the same.");
+            }
+
+            if(media1.equals(media4))
+            {
+                System.out.println(media1.getID() + " and " + media4.getID() + " are the same.");
+            }
+            else
+            {
+                System.out.println(media1.getID() + " and " + media4.getID() + " are not the same.");
+            }
+
+            System.out.println("\n"+getBiggestBook(libraryDemo));
+
+            System.out.println("\nHere is a copy of the books in the library.");
+            //Call copyBooks on Media or on Books??
+            
         }
             
         else
@@ -171,12 +274,20 @@ public class Driver {
     }
 
 
-
+    private static int getValidMenuChoice() {
+        Scanner keyIn = new Scanner(System.in);
+        int menuChoice = keyIn.nextInt();
+        while(menuChoice < 1 || menuChoice > 15)
+        {
+            System.out.println("Invalid input. Please try again.");
+            menuChoice = keyIn.nextInt();
+        }
+        return menuChoice;
+    }
 
 
     private static String getBiggestBook(LibraryItem[] library) {
-        int max = 0;
-        Book biggestBook = null;
+        
         Book[] books = new Book[library.length];
         for (int i = 0; i < library.length; i++) {
             if (library[i] != null && library[i].getClass() == Book.class) 
@@ -185,16 +296,19 @@ public class Driver {
             }
         }
 
-        max = books[0].getNumberOfPages();
+        Book biggestBook = books[0];
         for (int i = 0; i < books.length; i++) {
-            if (books[i] != null && books[i].getNumberOfPages() > max) {
-                max = books[i].getNumberOfPages();
+            if (books[i] != null && books[i].getNumberOfPages() > biggestBook.getNumberOfPages())
+            {
+                
                 biggestBook = books[i];
             }
         }
 
-        return "The biggest book is " + biggestBook.getName() + ".";
+        return "The biggest book in the library is " + biggestBook.getName() + ".";
     }
+
+
     private static Book[] copyBooks(LibraryItem[] books) {
         
         Book[] copyOfBooks = new Book[books.length];
@@ -208,8 +322,8 @@ public class Driver {
     }
 
 
-
-    private static int getValidClientID() {
+    private static String getValidClientID()
+    {
         Scanner keyIn = new Scanner(System.in);
         String clientID = keyIn.next();
         
@@ -218,6 +332,13 @@ public class Driver {
             System.out.println("Invalid input. Please try again.");
             clientID = keyIn.next();
         }
+        return clientID;
+    }
+
+
+    private static int getValidClientIndex() 
+    {
+        String clientID = getValidClientID();
         int clientIndex = Integer.parseInt(clientID.substring(1))-1;
         return clientIndex;
     }
@@ -229,7 +350,7 @@ public class Driver {
     private static void deleteClient(Client[] clients) {
         System.out.println("Which client would you like to delete? Please enter their ID.");
         Scanner keyIn = new Scanner(System.in);
-        String clientID = keyIn.next();
+        String clientID = getValidClientID();
 
         if(Client.getNumClients() == 0)
         {
@@ -265,7 +386,7 @@ public class Driver {
     private static void editClient(Client[] clients) {
         System.out.println("Which client would you like to update? Please enter their ID.");
         Scanner keyIn = new Scanner(System.in);
-        String clientID = keyIn.next();
+        String clientID = getValidClientID();
         int updateChoice = 0;
 
         if(Client.getNumClients() ==0)
@@ -327,6 +448,11 @@ public class Driver {
         System.out.println("Please enter the name of the client."); 
         String clientName = keyIn.nextLine();
         System.out.println("Please enter the phone number of the client.");
+        while(!keyIn.hasNextLong())
+        {
+            System.out.println("Invalid input. Please try again.");
+            keyIn.nextLong();
+        }
         long clientPhone = keyIn.nextLong();
         System.out.println("Please enter the email of the client.");
         String clientEmail = keyIn.next();
