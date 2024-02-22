@@ -107,7 +107,15 @@ public class Driver {
                     
                     case 9:
                         System.out.println("Which client would you like to lease to? Please enter their ID.");
-                        clientIndex = getValidClientIndex();
+                        if(Client.getNumClients() == 0)
+                        {
+                            System.out.println("There are no clients in this library.");
+                            break;
+                        }
+                        else
+                        {
+                            clientIndex = getValidClientIndex();
+                        }
                         System.out.println("Which item would you like to lease? Please enter its ID.");
                         itemID = getValidItemID();
                         clients[clientIndex].leaseItem(library, itemID);
@@ -115,7 +123,15 @@ public class Driver {
                     
                     case 10:
                         System.out.println("Which client would you like to return the item for? Please enter their ID.");
-                        clientIndex = getValidClientIndex();
+                        if(Client.getNumClients() == 0)
+                        {
+                            System.out.println("There are no clients in this library.");
+                            break;
+                        }
+                        else
+                        {
+                            clientIndex = getValidClientIndex();
+                        }
                         System.out.println("Which item would you like to return? Please enter its ID.");
                         itemID = getValidItemID();
                         clients[clientIndex].returnItem(library, itemID);
@@ -123,16 +139,32 @@ public class Driver {
                     
                     case 11:
                         System.out.println("Which client would you like to see the leased items for? Please enter their ID.");
-                        clientIndex = getValidClientIndex();
+                        if(Client.getNumClients() == 0)
+                        {
+                            System.out.println("There are no clients in this library.");
+                            break;
+                        }
+                        else
+                        {
+                            clientIndex = getValidClientIndex();
+                        }
                         clients[clientIndex].displayLeasedItems();
                         break;
                     
                     case 12:
-                        for(int i = 0; i < clients.length; i++)
+                        if(Client.getNumClients() == 0)
                         {
-                            if(clients[i] != null)
+                            System.out.println("There are no clients in this library.");
+                            break;
+                        }
+                        else
+                        {
+                            for(int i = 0; i < clients.length; i++)
                             {
-                                clients[i].displayLeasedItems();
+                                if(clients[i] != null)
+                                {
+                                    clients[i].displayLeasedItems();
+                                }
                             }
                         }
                         break;
@@ -273,7 +305,6 @@ public class Driver {
 
     }
 
-
     private static int getValidMenuChoice() {
         Scanner keyIn = new Scanner(System.in);
         int menuChoice = keyIn.nextInt();
@@ -326,7 +357,6 @@ public class Driver {
     {
         Scanner keyIn = new Scanner(System.in);
         String clientID = keyIn.next();
-        
         while(!(clientID.contains("C")))
         {
             System.out.println("Invalid input. Please try again.");
@@ -342,10 +372,6 @@ public class Driver {
         int clientIndex = Integer.parseInt(clientID.substring(1))-1;
         return clientIndex;
     }
-
-
-
-
 
     private static void deleteClient(Client[] clients) {
         System.out.println("Which client would you like to delete? Please enter their ID.");
@@ -380,7 +406,6 @@ public class Driver {
                 }
             }
         }
-        
     }
 
     private static void editClient(Client[] clients) {
@@ -435,13 +460,10 @@ public class Driver {
         }
     }
 
-
     private static void updateClientMenu() {
         System.out.print("\nWhat information would you like to change?" +
         "\n\t1. Name\n\t2. Phone number\n\t3. Email\n\t4. Quit\nEnter your choice > ");
     }
-
-
 
     private static void addClient(Client[] clients) {
         Scanner keyIn = new Scanner(System.in);
@@ -467,8 +489,6 @@ public class Driver {
             System.out.println("The client list is full. You cannot add any more clients.");
         }
     }
-
-
 
     private static void displayItemInfo(LibraryItem[] library, String itemChoice) {
         char itemType = itemChoice.charAt(0);
@@ -524,10 +544,6 @@ public class Driver {
         }
     }
 
-
-
-
-
     private static String getValidItemChoice() {
         Scanner keyIn = new Scanner(System.in);
         String itemChoice = keyIn.next();
@@ -540,10 +556,6 @@ public class Driver {
         }
         return itemChoice;
     }
-
-
-
-
 
     private static void displayLibraryInfo(LibraryItem[] library) {
        
@@ -559,12 +571,7 @@ public class Driver {
         {
             System.out.println("There are no items in the library.");
         }
-        
     }
-
-
-
-
 
     private static void updateItem(LibraryItem[] library, String itemID) {
         Scanner keyIn = new Scanner(System.in);
@@ -635,7 +642,6 @@ public class Driver {
             }
            } while(updateChoice!=4);
            
-
         }
         else if(itemID.contains("J"))
         {
@@ -758,16 +764,9 @@ public class Driver {
                             }
                         }
                         break;
-                    
                 }
             } while(updateChoice!=4);
-            
-            
         }
-
-        
-
-        
     }
 
     private static void updateMediaMenu(LibraryItem[] library, String itemID) {
@@ -876,7 +875,7 @@ public class Driver {
         }
 
     }
-
+    
     private static void addItem(LibraryItem[] library, String itemToAdd){
         Scanner keyIn = new Scanner(System.in);
         System.out.println("Please enter the name or title.");
@@ -905,6 +904,12 @@ public class Driver {
             {
                 System.out.println("What is the type of media?");
                 String typeOfMedia = keyIn.next();
+                while(typeOfMedia.equalsIgnoreCase("audio") || typeOfMedia.equalsIgnoreCase("video") 
+                || typeOfMedia.equalsIgnoreCase("interactive"))
+                {
+                    System.out.println("Invalid input. Please try again.");
+                    typeOfMedia = keyIn.next();
+                }
                 library[indexOfNextItem] = new Media(itemName, itemYear, typeOfMedia);
             }
         }

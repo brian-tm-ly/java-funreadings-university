@@ -16,7 +16,7 @@ public class Media extends LibraryItem {
     {
         super(name, yearOfPublication);
         numMedia++;
-        this.type = type;
+        setType(type);
         mediaID = "M" + numMedia;
     }
     
