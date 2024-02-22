@@ -1,3 +1,13 @@
+/**
+ * This class is the driver class for the FunReadings Library program. 
+ * It contains the main method which allows the user to interact directly with the library 
+ * or see a demo of a pre-defined scenario.
+ * @author Brian
+ * @version 1.0
+ * @see LibraryItem
+ * @see Client
+ */
+
 package Driver;
 import Library.*;
 import Client.Client;
@@ -6,6 +16,9 @@ import java.util.Scanner;
 public class Driver {
     public static void main(String[] args) {
         
+        /**
+         * Declaration of variables necessary for the program to run.
+         */
         Scanner keyIn = new Scanner(System.in);
         String input;
         int maxItems = 0;
@@ -17,21 +30,39 @@ public class Driver {
         int remainingItems = 0;
         int maxClients = 0;
 
+        /**
+         * Prompts the user to choose whether to run the program or see a demo.
+         */
         System.out.println("Would you like to run the program or see a demo?" +
             " (Please enter y to run the program or n to see a demo.)");
         input = keyIn.next();
         
         if(input.equalsIgnoreCase("y"))
         {
+            /**
+             * Prompts the user to enter the maximum number of items for the library's inventory 
+             * and the maximum number of clients.
+             */
             System.out.println("Welcome to the FunReadings Library! To get started, the inventory space"
             + "and limit of clients will need to be entered." +
             "\nWhat is the maximum number of items for your inventory?");   
             maxItems = keyIn.nextInt();
+            
+            /**
+             * Creates an array of LibraryItem objects with the maximum number of items entered by the user.
+             */
             LibraryItem[] library = new LibraryItem[maxItems]; 
             System.out.println("What is the maximum number of clients for your library?");
             maxClients = keyIn.nextInt();
+
+            /**
+             * Creates an array of Client objects with the maximum number of clients entered by the user.
+             */
             Client[] clients = new Client[maxClients];
             
+            /**
+             * The main menu of the program. The user can choose from 15 options.
+             */
             do {
                 displayMainMenu();
                 menuChoice = getValidMenuChoice();
@@ -43,22 +74,18 @@ public class Driver {
                     
                         System.out.println("Which item would you like to add? (book, journal, or media)");
                         itemChoice = getValidItemChoice();
-                       
                         addItem(library, itemChoice);
                         break;
                     
                     case 2:
                         System.out.println("Which item would you like to delete? Please enter its ID.");
                         itemID = getValidItemID();
-                    
                         deleteItem(library, itemID);
-                        
                         break;
                     
                     case 3:
                         System.out.println("Which item would you like to update? Please enter its ID.");
                         itemID = getValidItemID();
-                        
                         updateItem(library, itemID);
                         break;
 
@@ -305,6 +332,22 @@ public class Driver {
 
     }
 
+
+    /**
+     * This method displays the main menu of the program.
+     */
+    private static void displayMainMenu() {
+        System.out.println("What would you like to do?\n1) Add an item\n2) Delete an item\n"
+        + "3) Update the information of an item\n4) List all items in a specific category (book, journal, or media)"
+        + "\n5) View all items\n6) Add a client\n7) Update a client's information\n8) Delete a client"
+        + "\n9) Lease an item to a client\n10) Return an item from a client\n11) Show all items leased by a client"
+        + "\n12) Show all leased items(by all clients)\n13) Display the biggest book\n14) Copy list of books\n15) Quit");
+    }
+
+    /**
+     * This method returns a valid menu choice from the user.
+     * @return An integer representing the user's choice.
+     */
     private static int getValidMenuChoice() {
         Scanner keyIn = new Scanner(System.in);
         int menuChoice = keyIn.nextInt();
@@ -316,234 +359,10 @@ public class Driver {
         return menuChoice;
     }
 
-
-    private static String getBiggestBook(LibraryItem[] library) {
-        
-        Book[] books = new Book[library.length];
-        for (int i = 0; i < library.length; i++) {
-            if (library[i] != null && library[i].getClass() == Book.class) 
-            {
-                books[i] = (Book) library[i];
-            }
-        }
-
-        Book biggestBook = books[0];
-        for (int i = 0; i < books.length; i++) {
-            if (books[i] != null && books[i].getNumberOfPages() > biggestBook.getNumberOfPages())
-            {
-                
-                biggestBook = books[i];
-            }
-        }
-
-        return "The biggest book in the library is " + biggestBook.getName() + ".";
-    }
-
-
-    private static Book[] copyBooks(LibraryItem[] books) {
-        
-        Book[] copyOfBooks = new Book[books.length];
-        for (int i = 0; i < books.length; i++) {
-            if (books[i] != null && books[i].getClass() == Book.class) 
-            {
-                copyOfBooks[i] = (Book) books[i];
-            }
-        }
-        return copyOfBooks;
-    }
-
-
-    private static String getValidClientID()
-    {
-        Scanner keyIn = new Scanner(System.in);
-        String clientID = keyIn.next();
-        while(!(clientID.contains("C")))
-        {
-            System.out.println("Invalid input. Please try again.");
-            clientID = keyIn.next();
-        }
-        return clientID;
-    }
-
-
-    private static int getValidClientIndex() 
-    {
-        String clientID = getValidClientID();
-        int clientIndex = Integer.parseInt(clientID.substring(1))-1;
-        return clientIndex;
-    }
-
-    private static void deleteClient(Client[] clients) {
-        System.out.println("Which client would you like to delete? Please enter their ID.");
-        Scanner keyIn = new Scanner(System.in);
-        String clientID = getValidClientID();
-
-        if(Client.getNumClients() == 0)
-        {
-            System.out.println("There are no clients in this library.");
-        }
-        else
-        {
-            for(int i = 0; i < clients.length; i++)
-            {
-                if(clients[i] != null)
-                {
-                    if(clientID.equals(clients[i].getClientID()))
-                    {
-                        clients[i] = null;
-                    }
-                }
-            }
-        }
-
-        for(int i = 0; i < clients.length; i++)
-        {
-            if(clients[i] != null)
-            {
-                if(clientID.equals(clients[i].getClientID()))
-                {
-                    clients[i] = null;
-                }
-            }
-        }
-    }
-
-    private static void editClient(Client[] clients) {
-        System.out.println("Which client would you like to update? Please enter their ID.");
-        Scanner keyIn = new Scanner(System.in);
-        String clientID = getValidClientID();
-        int updateChoice = 0;
-
-        if(Client.getNumClients() ==0)
-        {
-            System.out.println("There are no clients in this library.");
-        }
-        else
-        {
-            for(int i = 0; i < clients.length; i++)
-            {
-                if(clients[i] != null)
-                {
-                    if(clientID.equals(clients[i].getClientID()))
-                    {
-                        do {
-                            updateClientMenu();
-                            updateChoice = keyIn.nextInt();
-                            switch(updateChoice)
-                            {
-                                case 1:
-                                    System.out.println("What is the new name of the client?");
-                                    String junkString = keyIn.nextLine();
-                                    String newName = keyIn.nextLine();
-                                    clients[i].setName(newName);
-                                    break;
-                                case 2:
-                                    System.out.println("What is the new phone number of the client?");
-                                    int newPhone = keyIn.nextInt();
-                                    clients[i].setPhoneNum(newPhone);
-                                    break;
-                                case 3:
-                                    System.out.println("What is the new email of the client?");
-                                    String newEmail = keyIn.next();
-                                    clients[i].setEmail(newEmail);
-                                    break;
-                                case 4:
-                                    break;
-                                default:
-                                    System.out.println("Invalid input. Please try again.");
-                                    break;
-                            }
-                        } while(updateChoice!=4);
-                    }
-                }
-            }
-        }
-    }
-
-    private static void updateClientMenu() {
-        System.out.print("\nWhat information would you like to change?" +
-        "\n\t1. Name\n\t2. Phone number\n\t3. Email\n\t4. Quit\nEnter your choice > ");
-    }
-
-    private static void addClient(Client[] clients) {
-        Scanner keyIn = new Scanner(System.in);
-        System.out.println("Please enter the name of the client."); 
-        String clientName = keyIn.nextLine();
-        System.out.println("Please enter the phone number of the client.");
-        while(!keyIn.hasNextLong())
-        {
-            System.out.println("Invalid input. Please try again.");
-            keyIn.nextLong();
-        }
-        long clientPhone = keyIn.nextLong();
-        System.out.println("Please enter the email of the client.");
-        String clientEmail = keyIn.next();
-        int indexOfNextClient = Client.getNumClients();
-
-        if(clients[clients.length-1] == null)
-        {
-            clients[indexOfNextClient] = new Client(clientName, clientPhone, clientEmail);
-        }
-        else
-        {
-            System.out.println("The client list is full. You cannot add any more clients.");
-        }
-    }
-
-    private static void displayItemInfo(LibraryItem[] library, String itemChoice) {
-        char itemType = itemChoice.charAt(0);
-        boolean itemFound = true;
-        switch(itemType) 
-        {
-            case 'b':
-                System.out.println("Books in the library:");
-                for(int i = 0; i < library.length; i++) 
-                {
-                    if(library[i] != null && library[i].getClass() == Book.class) {
-                        System.out.println(library[i].toString());
-                    }
-                    else if (library[i] != null && !(library[i].getClass() == Book.class))
-                    {
-                        itemFound = false;
-                    }
-                }
-                break;
-
-            case 'j':
-                System.out.println("Journals in the library:");
-                for(int i = 0; i < library.length; i++) 
-                {
-                    if(library[i] != null && library[i].getClass() == Journal.class) {
-                        System.out.println(library[i].toString());
-                    }
-                    else if (library[i] != null && !(library[i].getClass()== Journal.class))
-                    {
-                        itemFound = false;
-                    }
-                }
-              
-                break;
-
-            case 'm':
-                System.out.println("Media in the library:");
-                for(int i = 0; i < library.length; i++) 
-                {
-                    if(library[i] != null && library[i].getClass()== Media.class) {
-                        System.out.println(library[i].toString());
-                    }
-                    else if (library[i] != null && !(library[i].getClass() == Media.class))
-                    {
-                        itemFound = false;
-                    }
-                }
-                break;
-            default:
-                System.out.println("Invalid input. Please try again.");
-                break;
-                
-        }
-    }
-
+    /**
+     * This method gets a valid item choice from the user.
+     * @return A string representing the user's choice of item.
+     */
     private static String getValidItemChoice() {
         Scanner keyIn = new Scanner(System.in);
         String itemChoice = keyIn.next();
@@ -557,22 +376,160 @@ public class Driver {
         return itemChoice;
     }
 
-    private static void displayLibraryInfo(LibraryItem[] library) {
-       
-        for(int i = 0; i < library.length; i++)
+    /**
+     * This method adds an item to the library.
+     * @param library The array of LibraryItem objects and the type of item to add.
+     * @param itemToAdd The type of item to add.
+     */
+    private static void addItem(LibraryItem[] library, String itemToAdd){
+        Scanner keyIn = new Scanner(System.in);
+        System.out.println("Please enter the name or title.");
+        String itemName = keyIn.nextLine();
+        System.out.println("Please enter the year of publication?");
+        int itemYear = keyIn.nextInt();
+        
+        int indexOfNextItem = library.length - findRemainingSpaces(library);
+
+        if(library[library.length-1] == null)
         {
-            if(library[i] != null)
+            if(itemToAdd.equalsIgnoreCase("book"))
             {
-                System.out.println(library[i].toString());
+                System.out.println("How many pages does the book have?");
+                int bookPages = keyIn.nextInt();
+                library[indexOfNextItem] = new Book(itemName, itemYear, bookPages);
             }
-           
+            else if(itemToAdd.equalsIgnoreCase("journal"))
+            {
+                System.out.println("What is the volume of the journal?");
+                int journalVolume = keyIn.nextInt();
+                library[indexOfNextItem] = new Journal(itemName, itemYear, journalVolume);
+                
+            }
+            else if(itemToAdd.equalsIgnoreCase("media"))
+            {
+                System.out.println("What is the type of media?");
+                String typeOfMedia = keyIn.next();
+                while(typeOfMedia.equalsIgnoreCase("audio") || typeOfMedia.equalsIgnoreCase("video") 
+                || typeOfMedia.equalsIgnoreCase("interactive"))
+                {
+                    System.out.println("Invalid input. Please try again.");
+                    typeOfMedia = keyIn.next();
+                }
+                library[indexOfNextItem] = new Media(itemName, itemYear, typeOfMedia);
+            }
         }
+        else
+        {
+            System.out.println("The library is full. You cannot add any more items.");
+        }
+
+    }
+
+    /**
+     * This method returns a valid item ID from the user.
+     * @return An string representing the user's choice of item ID.
+     */
+    private static String getValidItemID() {
+        Scanner keyIn = new Scanner(System.in);
+        String itemID = keyIn.next();
+        while(!(itemID.contains("B") || itemID.contains("J") || itemID.contains("M")))
+        {
+            System.out.println("Invalid input. Please try again.");
+            itemID = keyIn.next();
+        }
+        return itemID;
+    }
+
+    /**
+     * This method returns the number of remaining spaces in the library.
+     * @param library The array of LibraryItem objects and the itemID of the item to delete.
+     * @param itemToDelete The ID of the item to delete.
+     */
+    private static void deleteItem(LibraryItem[] library, String itemToDelete) {
+
+        LibraryItem[] newLibrary;
+        int j =0;
+
         if (findRemainingSpaces(library) == library.length)
         {
             System.out.println("There are no items in the library.");
         }
+        else
+        {
+            newLibrary = new LibraryItem[library.length];
+            if(itemToDelete.contains("B"))
+            {
+                if (Book.getNumBooks() == 0)
+                {
+                    System.out.println("There are no books in this library.");
+                }
+                for(int i = 0; i < library.length; i++)
+                {
+                    if(library[i] != null)
+                    {     
+                        if(itemToDelete.equals( library[i].getID()))
+                        {
+                            library[i] = null;
+                        }
+                        
+                    }
+                }
+            }
+            else if(itemToDelete.contains("J"))
+            {
+                if(Journal.getNumJournals() == 0)
+                {
+                    System.out.println("There are no journals in this library.");
+                }
+                for(int i = 0; i < library.length; i++)
+                {
+                    if(library[i] != null)
+                    {   
+                        if(itemToDelete.equals( library[i].getID()))
+                        {
+                            library[i] = null;
+                        }
+
+                    }
+                }
+            }
+            else if(itemToDelete.contains("M"))
+            {
+                if(Media.getNumMedia() == 0)
+                {
+                    System.out.println("There are no media items in this library.");
+                }
+                for(int i = 0; i < library.length; i++)
+                {
+                    if(library[i] != null)
+                    {   
+                        if(itemToDelete.equals( library[i].getID()))
+                        {
+                            library[i] = null;
+                        }
+                    }
+                }
+            }
+        
+            for(int i = 0; i < library.length; i++)
+            {
+                if(library[i] != null)
+                {
+                    newLibrary[j] = library[i];
+                    j++;
+                }
+            }
+            library = newLibrary;
+        
+        }
+
     }
 
+    /**
+     * This method updates the information of an item in the library.
+     * @param library The array of LibraryItem objects and the itemID of the item to update.
+     * @param itemID The ID of the item to update.
+     */
     private static void updateItem(LibraryItem[] library, String itemID) {
         Scanner keyIn = new Scanner(System.in);
         int updateChoice = 0;
@@ -768,158 +725,320 @@ public class Driver {
             } while(updateChoice!=4);
         }
     }
+    
+    /**
+     * This method displays the information of a chosen item type in the library.
+     * @param library The array of LibraryItem objects and the type of item to display.
+     * @param itemChoice The type of item to display.
+     */
+    private static void displayItemInfo(LibraryItem[] library, String itemChoice) {
+        char itemType = itemChoice.charAt(0);
+        boolean itemFound = true;
+        switch(itemType) 
+        {
+            case 'b':
+                System.out.println("Books in the library:");
+                for(int i = 0; i < library.length; i++) 
+                {
+                    if(library[i] != null && library[i].getClass() == Book.class) {
+                        System.out.println(library[i].toString());
+                    }
+                    else if (library[i] != null && !(library[i].getClass() == Book.class))
+                    {
+                        itemFound = false;
+                    }
+                }
+                break;
 
+            case 'j':
+                System.out.println("Journals in the library:");
+                for(int i = 0; i < library.length; i++) 
+                {
+                    if(library[i] != null && library[i].getClass() == Journal.class) {
+                        System.out.println(library[i].toString());
+                    }
+                    else if (library[i] != null && !(library[i].getClass()== Journal.class))
+                    {
+                        itemFound = false;
+                    }
+                }
+              
+                break;
+
+            case 'm':
+                System.out.println("Media in the library:");
+                for(int i = 0; i < library.length; i++) 
+                {
+                    if(library[i] != null && library[i].getClass()== Media.class) {
+                        System.out.println(library[i].toString());
+                    }
+                    else if (library[i] != null && !(library[i].getClass() == Media.class))
+                    {
+                        itemFound = false;
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid input. Please try again.");
+                break;
+                
+        }
+    }
+
+    /**
+     * This method displays the information of all items in the library.
+     * @param library The array of LibraryItem objects.
+     */
+    private static void displayLibraryInfo(LibraryItem[] library) {
+       
+        for(int i = 0; i < library.length; i++)
+        {
+            if(library[i] != null)
+            {
+                System.out.println(library[i].toString());
+            }
+           
+        }
+        if (findRemainingSpaces(library) == library.length)
+        {
+            System.out.println("There are no items in the library.");
+        }
+    }
+
+    /**
+     * This method gets a valid client ID from the user.
+     * @return A string representing the user's choice of client ID.
+     */
+    private static String getValidClientID()
+    {
+        Scanner keyIn = new Scanner(System.in);
+        String clientID = keyIn.next();
+        while(!(clientID.contains("C")))
+        {
+            System.out.println("Invalid input. Please try again.");
+            clientID = keyIn.next();
+        }
+        return clientID;
+    }
+
+    /**
+     * This method returns a valid client index based on the valid client ID from user.
+     * @return
+     */
+    private static int getValidClientIndex() 
+    {
+        String clientID = getValidClientID();
+        int clientIndex = Integer.parseInt(clientID.substring(1))-1;
+        return clientIndex;
+    }
+
+    /**
+     * This method adds a client to the library.
+     * @param clients The array of Client objects.
+     */
+    private static void addClient(Client[] clients) {
+        Scanner keyIn = new Scanner(System.in);
+        System.out.println("Please enter the name of the client."); 
+        String clientName = keyIn.nextLine();
+        System.out.println("Please enter the phone number of the client.");
+        while(!keyIn.hasNextLong())
+        {
+            System.out.println("Invalid input. Please try again.");
+            keyIn.nextLong();
+        }
+        long clientPhone = keyIn.nextLong();
+        System.out.println("Please enter the email of the client.");
+        String clientEmail = keyIn.next();
+        int indexOfNextClient = Client.getNumClients();
+
+        if(clients[clients.length-1] == null)
+        {
+            clients[indexOfNextClient] = new Client(clientName, clientPhone, clientEmail);
+        }
+        else
+        {
+            System.out.println("The client list is full. You cannot add any more clients.");
+        }
+    }
+
+    /**
+     * This method edits the information of a client in the library.
+     * @param clients The array of Client objects.
+     */
+    private static void editClient(Client[] clients) {
+        System.out.println("Which client would you like to update? Please enter their ID.");
+        Scanner keyIn = new Scanner(System.in);
+        String clientID = getValidClientID();
+        int updateChoice = 0;
+
+        if(Client.getNumClients() ==0)
+        {
+            System.out.println("There are no clients in this library.");
+        }
+        else
+        {
+            for(int i = 0; i < clients.length; i++)
+            {
+                if(clients[i] != null)
+                {
+                    if(clientID.equals(clients[i].getClientID()))
+                    {
+                        do {
+                            updateClientMenu();
+                            updateChoice = keyIn.nextInt();
+                            switch(updateChoice)
+                            {
+                                case 1:
+                                    System.out.println("What is the new name of the client?");
+                                    String junkString = keyIn.nextLine();
+                                    String newName = keyIn.nextLine();
+                                    clients[i].setName(newName);
+                                    break;
+                                case 2:
+                                    System.out.println("What is the new phone number of the client?");
+                                    int newPhone = keyIn.nextInt();
+                                    clients[i].setPhoneNum(newPhone);
+                                    break;
+                                case 3:
+                                    System.out.println("What is the new email of the client?");
+                                    String newEmail = keyIn.next();
+                                    clients[i].setEmail(newEmail);
+                                    break;
+                                case 4:
+                                    break;
+                                default:
+                                    System.out.println("Invalid input. Please try again.");
+                                    break;
+                            }
+                        } while(updateChoice!=4);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * This method deletes a client from the library.
+     * @param clients The array of Client objects.
+     */
+    private static void deleteClient(Client[] clients) {
+        System.out.println("Which client would you like to delete? Please enter their ID.");
+        Scanner keyIn = new Scanner(System.in);
+        String clientID = getValidClientID();
+
+        if(Client.getNumClients() == 0)
+        {
+            System.out.println("There are no clients in this library.");
+        }
+        else
+        {
+            for(int i = 0; i < clients.length; i++)
+            {
+                if(clients[i] != null)
+                {
+                    if(clientID.equals(clients[i].getClientID()))
+                    {
+                        clients[i] = null;
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i < clients.length; i++)
+        {
+            if(clients[i] != null)
+            {
+                if(clientID.equals(clients[i].getClientID()))
+                {
+                    clients[i] = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * This method returns the biggest book in the library.
+     * @param library The array of LibraryItem objects.
+     * @return A string representing the biggest book in the library.
+     */
+    private static String getBiggestBook(LibraryItem[] library) {
+        
+        Book[] books = new Book[library.length];
+        for (int i = 0; i < library.length; i++) {
+            if (library[i] != null && library[i].getClass() == Book.class) 
+            {
+                books[i] = (Book) library[i];
+            }
+        }
+
+        Book biggestBook = books[0];
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] != null && books[i].getNumberOfPages() > biggestBook.getNumberOfPages())
+            {
+                
+                biggestBook = books[i];
+            }
+        }
+
+        return "The biggest book in the library is " + biggestBook.getName() + ".";
+    }
+
+    private static Book[] copyBooks(LibraryItem[] books) {
+        
+        Book[] copyOfBooks = new Book[books.length];
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] != null && books[i].getClass() == Book.class) 
+            {
+                copyOfBooks[i] = (Book) books[i];
+            }
+        }
+        return copyOfBooks;
+    }
+
+    /**
+     * This method displays the update client menu.
+     */
+    private static void updateClientMenu() {
+        System.out.print("\nWhat information would you like to change?" +
+        "\n\t1. Name\n\t2. Phone number\n\t3. Email\n\t4. Quit\nEnter your choice > ");
+    }
+
+    /**
+     * This method displays the update media menu.
+     * @param library The array of LibraryItem objects and the itemID of the item to update.
+     * @param itemID The ID of the item to update.
+     */
     private static void updateMediaMenu(LibraryItem[] library, String itemID) {
         System.out.print("\nWhat information would you like to change?" +
         "\n\t1. Name\n\t2. Year of Publication\n\t3. Type of media (audio/video/interactive)"+
         "\n\t4. Quit\nEnter your choice > ");
     }
 
+    /**
+     * This method displays the update journal menu.
+     * @param library The array of LibraryItem objects and the itemID of the item to update.
+     * @param itemID The ID of the item to update.
+     */
     private static void updateJournalMenu(LibraryItem[] library, String itemID) {
         System.out.print("\nWhat information would you like to change?" +
         "\n\t1. Name\n\t2. Year of Publication\n\t3. Volume number\n\t4. Quit\nEnter your choice > ");
     }
 
+    /**
+     * This method displays the update book menu.
+     * @param library The array of LibraryItem objects and the itemID of the item to update.
+     * @param itemID The ID of the item to update.
+     */
     private static void updateBookMenu(LibraryItem[] library, String itemID) {
         System.out.print("\nWhat information would you like to change?" +
         "\n\t1. Name\n\t2. Year of Publication\n\t3. Number of pages\n\t4. Quit\nEnter your choice > ");
     }
 
-    private static String getValidItemID() {
-        Scanner keyIn = new Scanner(System.in);
-        String itemID = keyIn.next();
-        while(!(itemID.contains("B") || itemID.contains("J") || itemID.contains("M")))
-        {
-            System.out.println("Invalid input. Please try again.");
-            itemID = keyIn.next();
-        }
-        return itemID;
-    }
-
-    private static void deleteItem(LibraryItem[] library, String itemToDelete) {
-
-        LibraryItem[] newLibrary;
-        int j =0;
-
-        if (findRemainingSpaces(library) == library.length)
-        {
-            System.out.println("There are no items in the library.");
-        }
-        else
-        {
-            newLibrary = new LibraryItem[library.length];
-            if(itemToDelete.contains("B"))
-            {
-                if (Book.getNumBooks() == 0)
-                {
-                    System.out.println("There are no books in this library.");
-                }
-                for(int i = 0; i < library.length; i++)
-                {
-                    if(library[i] != null)
-                    {     
-                        if(itemToDelete.equals( library[i].getID()))
-                        {
-                            library[i] = null;
-                        }
-                        
-                    }
-                }
-            }
-            else if(itemToDelete.contains("J"))
-            {
-                if(Journal.getNumJournals() == 0)
-                {
-                    System.out.println("There are no journals in this library.");
-                }
-                for(int i = 0; i < library.length; i++)
-                {
-                    if(library[i] != null)
-                    {   
-                        if(itemToDelete.equals( library[i].getID()))
-                        {
-                            library[i] = null;
-                        }
-
-                    }
-                }
-            }
-            else if(itemToDelete.contains("M"))
-            {
-                if(Media.getNumMedia() == 0)
-                {
-                    System.out.println("There are no media items in this library.");
-                }
-                for(int i = 0; i < library.length; i++)
-                {
-                    if(library[i] != null)
-                    {   
-                        if(itemToDelete.equals( library[i].getID()))
-                        {
-                            library[i] = null;
-                        }
-                    }
-                }
-            }
-        
-            for(int i = 0; i < library.length; i++)
-            {
-                if(library[i] != null)
-                {
-                    newLibrary[j] = library[i];
-                    j++;
-                }
-            }
-            library = newLibrary;
-        
-        }
-
-    }
-    
-    private static void addItem(LibraryItem[] library, String itemToAdd){
-        Scanner keyIn = new Scanner(System.in);
-        System.out.println("Please enter the name or title.");
-        String itemName = keyIn.nextLine();
-        System.out.println("Please enter the year of publication?");
-        int itemYear = keyIn.nextInt();
-        
-        int indexOfNextItem = library.length - findRemainingSpaces(library);
-
-        if(library[library.length-1] == null)
-        {
-            if(itemToAdd.equalsIgnoreCase("book"))
-            {
-                System.out.println("How many pages does the book have?");
-                int bookPages = keyIn.nextInt();
-                library[indexOfNextItem] = new Book(itemName, itemYear, bookPages);
-            }
-            else if(itemToAdd.equalsIgnoreCase("journal"))
-            {
-                System.out.println("What is the volume of the journal?");
-                int journalVolume = keyIn.nextInt();
-                library[indexOfNextItem] = new Journal(itemName, itemYear, journalVolume);
-                
-            }
-            else if(itemToAdd.equalsIgnoreCase("media"))
-            {
-                System.out.println("What is the type of media?");
-                String typeOfMedia = keyIn.next();
-                while(typeOfMedia.equalsIgnoreCase("audio") || typeOfMedia.equalsIgnoreCase("video") 
-                || typeOfMedia.equalsIgnoreCase("interactive"))
-                {
-                    System.out.println("Invalid input. Please try again.");
-                    typeOfMedia = keyIn.next();
-                }
-                library[indexOfNextItem] = new Media(itemName, itemYear, typeOfMedia);
-            }
-        }
-        else
-        {
-            System.out.println("The library is full. You cannot add any more items.");
-        }
-
-    }
-
+    /**
+     * This method returns the number of remaining spaces in the library.
+     * @param library The array of LibraryItem objects.
+     * @return An integer representing the number of remaining spaces in the library.
+     */
     private static int findRemainingSpaces(LibraryItem[] library) {
         int remainingSpaces = 0;
         for(int i = 0; i < library.length; i++)
@@ -936,12 +1055,6 @@ public class Driver {
 
 
 
-    private static void displayMainMenu() {
-        System.out.println("What would you like to do?\n1) Add an item\n2) Delete an item\n"
-        + "3) Update the information of an item\n4) List all items in a specific category (book, journal, or media)"
-        + "\n5) View all items\n6) Add a client\n7) Update a client's information\n8) Delete a client"
-        + "\n9) Lease an item to a client\n10) Return an item from a client\n11) Show all items leased by a client"
-        + "\n12) Show all leased items(by all clients)\n13) Display the biggest book\n14) Copy list of books\n15) Quit");
-    }
+    
     
 }

@@ -164,6 +164,11 @@ public class Client {
         return leasedItemsString;
     }
 
+    /**
+     * Sets the leased items of the client.
+     * @param library The library from which the client is leasing items.
+     * @param itemID The ID of the item the client is leasing.
+     */
     public void leaseItem(LibraryItem[] library, String itemID)
     {   
         LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length + 1];
@@ -227,6 +232,11 @@ public class Client {
 
     }
 
+    /**
+     * Returns the leased items of the client.
+     * @param library The library from which the client is returning items.
+     * @param itemID The ID of the item the client is returning.
+     */
     public void returnItem(LibraryItem[] library, String itemID)
     {
         
@@ -291,6 +301,9 @@ public class Client {
         }
     }
 
+    /**
+     * Displays the leased items of the client.
+     */
     public void displayLeasedItems() {
         
         if(leasedItems.length == 0)
@@ -308,6 +321,11 @@ public class Client {
         
     }
 
+    /**
+     * Compares the client to another object to see if they are equal.
+     * @param otherObject The object to compare to the client.
+     */
+    @Override
     public boolean equals(Object otherObject)
     {
         if (otherObject == null)
@@ -322,6 +340,10 @@ public class Client {
         }
     }
 
+    /**
+     * Returns a string representation of the client.
+     * @return A string representing the information of the client.
+     */
     @Override
     public String toString()
     {

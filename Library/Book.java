@@ -1,3 +1,13 @@
+/**
+ * Book class is a subclass of LibraryItem. 
+ * It contains a unique bookID, and a number of pages.
+ * @author Brian
+ * @version 1.0
+ * @see LibraryItem
+ * @see Media
+ * @see Journal
+ */
+
 package Library;
 
 public class Book extends LibraryItem {
