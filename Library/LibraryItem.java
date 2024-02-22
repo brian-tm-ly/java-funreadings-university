@@ -57,13 +57,10 @@ public abstract class LibraryItem {
     }
 
     /**
-     * Returns the unique ID of the library item.
-     * @return A string representing the unique ID of the library item.
+     * Returns the ID of the library item.
+     * To be defined in the subclasses.
      */
-    public String getID()
-    {
-        return ID;
-    }
+    public abstract String getID();
     
     /**
      * Returns the number of LibraryItems that have been created.

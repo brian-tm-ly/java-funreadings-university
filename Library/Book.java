@@ -59,7 +59,6 @@ public class Book extends LibraryItem {
         this.numberOfPages = numberOfPages;
     }
 
-
     @Override
     public boolean equals(Object otherObject)
     {

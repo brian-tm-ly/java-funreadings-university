@@ -25,9 +25,7 @@ public class Driver {
         String itemID;
         int clientIndex;
         String itemChoice;
-        String junkString;
         int menuChoice=0;
-        int remainingItems = 0;
         int maxClients = 0;
 
         /**
@@ -782,6 +780,10 @@ public class Driver {
                 System.out.println("Invalid input. Please try again.");
                 break;
                 
+        }
+        if(itemFound == false)
+        {
+            System.out.println("There are no items of this type in the library.");
         }
     }
 
