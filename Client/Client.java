@@ -347,7 +347,7 @@ public class Client {
     @Override
     public String toString()
     {
-        return "This client's ID is " + clientID + ". Their name is " + name + ". Their phone number is " 
+        return "Client " + clientID + ": Their name is " + name + ". Their phone number is " 
             + phoneNum + ". Their email is " + email;
     }
 

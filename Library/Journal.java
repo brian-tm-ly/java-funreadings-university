@@ -115,5 +115,6 @@ public class Journal extends LibraryItem {
     {
         return journalID + ": " + name + ". Published in " + yearOfPublication + ". Its volume number is " + volumeNum + ".";
     }
+
     
 }

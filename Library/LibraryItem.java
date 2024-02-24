@@ -135,5 +135,5 @@ public abstract class LibraryItem {
     public String toString() {
         return "This library item's name is " + name + ". It was published in " +  yearOfPublication + ".";
     }
-    
+
 }
