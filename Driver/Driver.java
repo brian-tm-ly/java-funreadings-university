@@ -341,11 +341,9 @@ public class Driver {
     }
 
 
-    //The following methods are static methods that are used in the main method to perform various tasks.
+//----The following methods are static methods that are used in the main method to perform various tasks ----//
     
-    /**
-     * This method displays the main menu of the program.
-     */
+    //Displays the main menu of the program.
     private static void displayMainMenu() {
         System.out.println("What would you like to do?\n1) Add an item\n2) Delete an item\n"
         + "3) Update the information of an item\n4) List all items in a specific category (book, journal, or media)"
@@ -354,9 +352,9 @@ public class Driver {
         + "\n12) Show all leased items(by all clients)\n13) Display the biggest book\n14) Copy list of books\n15) Quit");
     }
 
-    /**
-     * This method returns a valid menu choice from the user.
-     * @return An integer representing the user's choice.
+    /*
+     * This method gets a valid menu choice from the user.
+     * Returns an integer representing the user's choice of menu option.
      */
     private static int getValidMenuChoice() {
         Scanner keyIn = new Scanner(System.in);
@@ -369,9 +367,9 @@ public class Driver {
         return menuChoice;
     }
 
-    /**
+    /*
      * This method gets a valid item choice from the user.
-     * @return A string representing the user's choice of item.
+     * Returns a string representing the user's choice of item.
      */
     private static String getValidItemChoice() {
         Scanner keyIn = new Scanner(System.in);
@@ -386,10 +384,10 @@ public class Driver {
         return itemChoice;
     }
 
-    /**
+    /*
      * This method adds an item to the library.
-     * @param library The array of LibraryItem objects and the type of item to add.
-     * @param itemToAdd The type of item to add.
+     * Takes the parameter library: The array of LibraryItem objects
+     * and the parameter itemToAdd: The type of item to add.
      */
     private static void addItem(LibraryItem[] library, String itemToAdd){
         Scanner keyIn = new Scanner(System.in);
@@ -441,9 +439,9 @@ public class Driver {
 
     }
 
-    /**
+    /*
      * This method returns a valid item ID from the user.
-     * @return An string representing the user's choice of item ID.
+     * Returns a string representing the user's choice of item ID.
      */
     private static String getValidItemID() {
         Scanner keyIn = new Scanner(System.in);
@@ -456,10 +454,10 @@ public class Driver {
         return itemID;
     }
 
-    /**
+    /*
      * This method returns the number of remaining spaces in the library.
-     * @param library The array of LibraryItem objects and the itemID of the item to delete.
-     * @param itemToDelete The ID of the item to delete.
+     * Takes the parameter library: The array of LibraryItem objects 
+     * and the parameter itemToDelete: The ID of the item to delete.
      */
     private static void deleteItem(LibraryItem[] library, String itemToDelete) {
 
@@ -542,10 +540,10 @@ public class Driver {
 
     }
 
-    /**
+    /*
      * This method updates the information of an item in the library.
-     * @param library The array of LibraryItem objects and the itemID of the item to update.
-     * @param itemID The ID of the item to update.
+     * Takes the parameter library: The array of LibraryItem objects
+     * and itemID: The ID of the item to update.
      */
     private static void updateItem(LibraryItem[] library, String itemID) {
         Scanner keyIn = new Scanner(System.in);
@@ -759,12 +757,12 @@ public class Driver {
         }
     }
     
-    /**
+    /*
      * This method displays the information of a chosen item type in the library.
-     * @param library The array of LibraryItem objects and the type of item to display.
-     * @param itemChoice The type of item to display.
+     * Takes the parameter library: The array of LibraryItem objects 
+     * and itemChoice: The type of item to display.
      */
-    private static void displayItemInfo(LibraryItem[] library, String itemChoice) {
+    public static void displayItemInfo(LibraryItem[] library, String itemChoice) {
         char itemType = itemChoice.charAt(0); //The first character of the itemChoice string.
         boolean itemFound = true; //A boolean variable that is true if the item is found in the library.
 
@@ -833,9 +831,8 @@ public class Driver {
         }
     }
 
-    /**
+    /*
      * This method displays the information of all items in the library.
-     * @param library The array of LibraryItem objects.
      */
     private static void displayLibraryInfo(LibraryItem[] library) {
        
@@ -855,9 +852,9 @@ public class Driver {
         }
     }
 
-    /**
+    /*
      * This method gets a valid client ID from the user.
-     * @return A string representing the user's choice of client ID.
+     * Returns a string representing the user's choice of client ID.
      */
     private static String getValidClientID()
     {
@@ -873,10 +870,10 @@ public class Driver {
         return clientID;
     }
 
-    /**
+    /*
      * This method returns a valid client index based on the valid client ID from user.
      * The index is used to access the client in the clients array.
-     * @return
+     * Returns an integer representing the user's choice of client index.
      */
     private static int getValidClientIndex() 
     {
@@ -888,9 +885,9 @@ public class Driver {
         return clientIndex;
     }
 
-    /**
+    /*
      * This method adds a client to the library.
-     * @param clients The array of Client objects.
+     * Takes the parameter clients: The array of Client objects.
      */
     private static void addClient(Client[] clients) {
         Scanner keyIn = new Scanner(System.in);
@@ -922,9 +919,9 @@ public class Driver {
         }
     }
 
-    /**
+    /*
      * This method edits the information of a client in the library.
-     * @param clients The array of Client objects.
+     * Takes the parameter clients: The array of Client objects.
      */
     private static void editClient(Client[] clients) {
         System.out.println("Which client would you like to update? Please enter their ID.");
@@ -989,9 +986,9 @@ public class Driver {
         }
     }
 
-    /**
+    /*
      * This method deletes a client from the library.
-     * @param clients The array of Client objects.
+     * Takes the parameter clients: The array of Client objects.
      */
     private static void deleteClient(Client[] clients) {
         System.out.println("Which client would you like to delete? Please enter their ID.");
@@ -1033,10 +1030,10 @@ public class Driver {
         clients = newClients; //The clients array is updated to the newClients array.
     }
 
-    /**
+    /*
      * This method returns the biggest book in the library.
-     * @param library The array of LibraryItem objects.
-     * @return A string representing the biggest book in the library.
+     * Takes the parameter library: The array of LibraryItem objects.
+     * Returns a string representing the biggest book in the library.
      */
     private static String getBiggestBook(LibraryItem[] library) {
         Book[] books = new Book[library.length]; //Created an array of Book objects with the same length as the library array.
@@ -1064,11 +1061,11 @@ public class Driver {
         return "The biggest book in the library is " + biggestBook.getName() + ".";
     }
 
-    /**
+    /*
      * This method returns a copy of the books in the library.
      * Will not work for journals or media.
-     * @param books The array of LibraryItem objects.
-     * @return An array of Book objects.
+     * Takes the parameter books: The array of LibraryItem objects.
+     * Returns an array of Book objects.
      */
     private static Book[] copyBooks(LibraryItem[] books) {
         Boolean isBook = true; //A boolean variable that is true if the item is a book.
@@ -1101,7 +1098,7 @@ public class Driver {
         
     }
 
-    /**
+    /*
      * This method displays the update client menu.
      */
     private static void updateClientMenu() {
@@ -1109,10 +1106,10 @@ public class Driver {
         "\n\t1. Name\n\t2. Phone number\n\t3. Email\n\t4. Quit\nEnter your choice > ");
     }
 
-    /**
+    /*
      * This method displays the update media menu.
-     * @param library The array of LibraryItem objects and the itemID of the item to update.
-     * @param itemID The ID of the item to update.
+     * Takes the parameter library: The array of LibraryItem objects and the itemID of the item to update.
+     * Takes the parameter itemID: The ID of the item to update.
      */
     private static void updateMediaMenu(LibraryItem[] library, String itemID) {
         System.out.print("\nWhat information would you like to change?" +
@@ -1120,30 +1117,30 @@ public class Driver {
         "\n\t4. Quit\nEnter your choice > ");
     }
 
-    /**
+    /*
      * This method displays the update journal menu.
-     * @param library The array of LibraryItem objects and the itemID of the item to update.
-     * @param itemID The ID of the item to update.
+     * Takes the parameter library: The array of LibraryItem objects and the itemID of the item to update.
+     * Takes the parameter itemID: The ID of the item to update.
      */
     private static void updateJournalMenu(LibraryItem[] library, String itemID) {
         System.out.print("\nWhat information would you like to change?" +
         "\n\t1. Name\n\t2. Year of Publication\n\t3. Volume number\n\t4. Quit\nEnter your choice > ");
     }
 
-    /**
+    /*
      * This method displays the update book menu.
-     * @param library The array of LibraryItem objects and the itemID of the item to update.
-     * @param itemID The ID of the item to update.
+     * Takes the parameter library: The array of LibraryItem objects and the itemID of the item to update.
+     * Takes the parameter itemID: The ID of the item to update.
      */
     private static void updateBookMenu(LibraryItem[] library, String itemID) {
         System.out.print("\nWhat information would you like to change?" +
         "\n\t1. Name\n\t2. Year of Publication\n\t3. Number of pages\n\t4. Quit\nEnter your choice > ");
     }
 
-    /**
+    /*
      * This method returns the number of remaining spaces in the library.
-     * @param library The array of LibraryItem objects.
-     * @return An integer representing the number of remaining spaces in the library.
+     * Takes the parameter library: The array of LibraryItem objects.
+     * Returns an integer representing the number of remaining spaces in the library.
      */
     private static int findRemainingSpaces(LibraryItem[] library) {
         int remainingSpaces = 0;
@@ -1168,11 +1165,6 @@ public class Driver {
             }
         }
     }
-
-
-
-
-
-    
+ 
     
 }
