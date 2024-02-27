@@ -709,7 +709,6 @@ public class Driver {
                                     (library[i]).setName(newName);
                                 }
                             }
-                            
                         }
                         break;
                     case 2: //The user is prompted to enter the new year of publication of the media item.
