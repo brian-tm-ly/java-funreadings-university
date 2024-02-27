@@ -338,8 +338,8 @@ public class Driver {
                 System.exit(0);
         }
 
+        keyIn.close();
     }
-
 
 //----The following methods are static methods that are used in the main method to perform various tasks ----//
     
