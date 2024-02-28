@@ -27,21 +27,21 @@ public class Driver {
         int maxClients = 0;
 
         //Prompts the user to run the program or see a demo.
-        System.out.println("Would you like to run the program or see a demo?" +
-            " (Please enter y to run the program or n to see a demo.)");
+        System.out.println("Hello user! \nWould you like to run the program or see a demo?" +
+            " (Please enter Y to run the program or N to see a demo.) ");
         input = keyIn.next();
         
         if(input.equalsIgnoreCase("y"))
         {
             //Prompts the user to enter the maximum number of items and clients for the library.
-            System.out.println("Welcome to the FunReadings Library! To get started, the inventory space"
-            + "and limit of clients will need to be entered." +
-            "\nWhat is the maximum number of items for your inventory?");   
+            System.out.println("Welcome to the FunReadings Library!\nTo get started, the inventory space"
+            + " and limit of clients will need to be entered.");
+            System.out.print("What is the maximum number of items for your inventory? ");   
             maxItems = keyIn.nextInt();
             
             //Creates an array of LibraryItem objects with the maximum number of items entered by the user.
             LibraryItem[] library = new LibraryItem[maxItems]; 
-            System.out.println("What is the maximum number of clients for your library?");
+            System.out.print("What is the maximum number of clients for your library? ");
             maxClients = keyIn.nextInt();
 
             //Creates an array of Client objects with the maximum number of clients entered by the user.
@@ -94,21 +94,18 @@ public class Driver {
                     //Adds a client to the library by calling the addClient method.
                     case 6:
                         addClient(clients);
-                        System.out.println("Client has been added. Here are the clients in the library.");
                         displayClients(clients);
                         break;
 
                     //Updates the information of a client in the library by calling the editClient method.
                     case 7:
                         editClient(clients);
-                        System.out.println("Client has been updated. Here are the clients in the library.");
                         displayClients(clients);
                         break;
 
                     //Deletes a client from the library by calling the deleteClient method.
                     case 8:
                         deleteClient(clients);
-                        System.out.println("Client has been deleted. Here are the clients in the library.");
                         displayClients(clients);
                         break;
                     
@@ -345,7 +342,7 @@ public class Driver {
     
     //Displays the main menu of the program.
     private static void displayMainMenu() {
-        System.out.println("What would you like to do?\n1) Add an item\n2) Delete an item\n"
+        System.out.print("What would you like to do?\n1) Add an item\n2) Delete an item\n"
         + "3) Update the information of an item\n4) List all items in a specific category (book, journal, or media)"
         + "\n5) View all items\n6) Add a client\n7) Update a client's information\n8) Delete a client"
         + "\n9) Lease an item to a client\n10) Return an item from a client\n11) Show all items leased by a client"
@@ -391,9 +388,9 @@ public class Driver {
      */
     private static void addItem(LibraryItem[] library, String itemToAdd){
         Scanner keyIn = new Scanner(System.in);
-        System.out.println("Please enter the name or title.");
+        System.out.print("Please enter the name or title. ");
         String itemName = keyIn.nextLine();
-        System.out.println("Please enter the year of publication?");
+        System.out.print("Please enter the year of publication? ");
         int itemYear = keyIn.nextInt();
         
         int indexOfNextItem = library.length - findRemainingSpaces(library); //Finds the index of the next item to add.
@@ -404,14 +401,14 @@ public class Driver {
             //The user is prompted to enter the number of pages if the item is a book.
             if(itemToAdd.equalsIgnoreCase("book")) 
             {
-                System.out.println("How many pages does the book have?");
+                System.out.print("How many pages does the book have? ");
                 int bookPages = keyIn.nextInt();
                 library[indexOfNextItem] = new Book(itemName, itemYear, bookPages);
             }
             //The user is prompted to enter the volume number if the item is a journal.
             else if(itemToAdd.equalsIgnoreCase("journal"))
             {
-                System.out.println("What is the volume of the journal?");
+                System.out.print("What is the volume of the journal? ");
                 int journalVolume = keyIn.nextInt();
                 library[indexOfNextItem] = new Journal(itemName, itemYear, journalVolume);
                 
@@ -419,7 +416,7 @@ public class Driver {
             //The user is prompted to enter the type of media if the item is a media item.
             else if(itemToAdd.equalsIgnoreCase("media"))
             {
-                System.out.println("What is the type of media?");
+                System.out.print("What is the type of media? ");
                 String typeOfMedia = keyIn.next();
 
                 //The user is prompted to enter a valid type of media.
@@ -576,7 +573,7 @@ public class Driver {
                     break;
 
                 case 2: //The user is prompted to enter the new year of publication of the book.
-                    System.out.println("What is the new year of publication?");
+                    System.out.print("What is the new year of publication? ");
                     int newYear = keyIn.nextInt();
                     for(int i = 0; i < library.length; i++)
                     {
@@ -591,7 +588,7 @@ public class Driver {
                     break;
 
                 case 3: //The user is prompted to enter the new number of pages of the book.
-                    System.out.println("What is the new number of pages?");
+                    System.out.print("What is the new number of pages? ");
                     int newPages = keyIn.nextInt();
                     for(int i = 0; i < library.length; i++)
                     {
@@ -628,7 +625,7 @@ public class Driver {
                 switch(updateChoice)
                 {
                     case 1: //The user is prompted to enter the new name of the journal.
-                        System.out.println("What is the new name of the journal?");
+                        System.out.print("What is the new name of the journal? ");
                         String newName = keyIn.next();
                         String junkString = keyIn.nextLine();
                         for(int i = 0; i < library.length; i++)
@@ -644,7 +641,7 @@ public class Driver {
                         break;
     
                     case 2: //The user is prompted to enter the new year of publication of the journal.
-                        System.out.println("What is the new year of publication?");
+                        System.out.print("What is the new year of publication? ");
                         int newYear = keyIn.nextInt();
                         for(int i = 0; i < library.length; i++)
                         {
@@ -659,7 +656,7 @@ public class Driver {
                         break;
     
                     case 3: //The user is prompted to enter the new volume number of the journal.
-                        System.out.println("What is the new volume number?");
+                        System.out.print("What is the new volume number? ");
                         int newVolume = keyIn.nextInt();
                         for(int i = 0; i < library.length; i++)
                         {
@@ -697,7 +694,7 @@ public class Driver {
                 switch(updateChoice)
                 {
                     case 1: //The user is prompted to enter the new name of the media item.
-                        System.out.println("What is the new name of the media?");
+                        System.out.print("What is the new name of the media? ");
                         String newName = keyIn.next();
                         String junkString = keyIn.nextLine();
                         for(int i = 0; i < library.length; i++)
@@ -712,7 +709,7 @@ public class Driver {
                         }
                         break;
                     case 2: //The user is prompted to enter the new year of publication of the media item.
-                        System.out.println("What is the new year of publication?");
+                        System.out.print("What is the new year of publication? ");
                         int newYear = keyIn.nextInt();
                         for(int i = 0; i < library.length; i++)
                         {
@@ -727,7 +724,7 @@ public class Driver {
                         break;
 
                     case 3: //The user is prompted to enter the new type of media.
-                        System.out.println("What is the new type of media?");
+                        System.out.print("What is the new type of media? ");
                         String newType = keyIn.next();
                         for(int i = 0; i < library.length; i++)
                         {
@@ -890,9 +887,9 @@ public class Driver {
      */
     private static void addClient(Client[] clients) {
         Scanner keyIn = new Scanner(System.in);
-        System.out.println("Please enter the name of the client."); 
+        System.out.print("Please enter the name of the client. "); 
         String clientName = keyIn.nextLine();
-        System.out.println("Please enter the phone number of the client.");
+        System.out.print("Please enter the phone number of the client. ");
 
         //The user is prompted to enter a valid phone number.
         while(!keyIn.hasNextLong())
@@ -901,7 +898,7 @@ public class Driver {
             keyIn.nextLong();
         }
         long clientPhone = keyIn.nextLong();
-        System.out.println("Please enter the email of the client.");
+        System.out.print("Please enter the email of the client. ");
         String clientEmail = keyIn.next();
 
         //The index of the next client is calculated based on the number of clients in the clients array.
@@ -911,6 +908,7 @@ public class Driver {
         if(clients[clients.length-1] == null)
         {
             clients[indexOfNextClient] = new Client(clientName, clientPhone, clientEmail);
+            System.out.println("Client has been added. Here are the clients in the library.");
         }
         else
         {
@@ -923,7 +921,7 @@ public class Driver {
      * Takes the parameter clients: The array of Client objects.
      */
     private static void editClient(Client[] clients) {
-        System.out.println("Which client would you like to update? Please enter their ID.");
+        System.out.print("Which client would you like to update? Please enter their ID. ");
         Scanner keyIn = new Scanner(System.in);
         String clientID = getValidClientID();
         int updateChoice = 0;
@@ -953,20 +951,20 @@ public class Driver {
                             {
                                 //The user is prompted to enter the new name of the client.
                                 case 1:
-                                    System.out.println("What is the new name of the client?");
+                                    System.out.print("What is the new name of the client? ");
                                     String junkString = keyIn.nextLine();
                                     String newName = keyIn.nextLine();
                                     clients[i].setName(newName);
                                     break;
                                 //The user is prompted to enter the new phone number of the client.
                                 case 2:
-                                    System.out.println("What is the new phone number of the client?");
+                                    System.out.print("What is the new phone number of the client? ");
                                     int newPhone = keyIn.nextInt();
                                     clients[i].setPhoneNum(newPhone);
                                     break;
                                 //The user is prompted to enter the new email of the client.
                                 case 3:
-                                    System.out.println("What is the new email of the client?");
+                                    System.out.print("What is the new email of the client? ");
                                     String newEmail = keyIn.next();
                                     clients[i].setEmail(newEmail);
                                     break;
@@ -982,6 +980,7 @@ public class Driver {
                     }
                 }
             }
+            System.out.println("Client has been updated. Here are the clients in the library.");
         }
     }
 
@@ -990,7 +989,7 @@ public class Driver {
      * Takes the parameter clients: The array of Client objects.
      */
     private static void deleteClient(Client[] clients) {
-        System.out.println("Which client would you like to delete? Please enter their ID.");
+        System.out.print("Which client would you like to delete? Please enter their ID. ");
         Scanner keyIn = new Scanner(System.in);
         String clientID = getValidClientID();
         Client[] newClients = new Client[clients.length]; //A new array of Client objects.
@@ -1011,7 +1010,13 @@ public class Driver {
                 {
                     if(clientID.equals(clients[i].getClientID()))
                     {
+                        if(!(clients[i].getLeasedItems().equals("")))
+                        {
+                            System.out.println("This client has leased items. You cannot delete this client.");
+                            break;
+                        }
                         clients[i] = null; //The client is deleted from the clients array.
+                        System.out.println("Client has been deleted. Here are the clients in the library.");
                     }
                 }
             }
@@ -1155,7 +1160,6 @@ public class Driver {
 
      //A method that displays the information of all clients in the library if there are any.
      private static void displayClients(Client[] clients) {
-        
         for(int i = 0; i < clients.length; i++)
         {
             if(clients[i] != null)
