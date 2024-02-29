@@ -23,18 +23,20 @@ public class Driver {
         String itemID;
         int clientIndex;
         String itemChoice;
-        int menuChoice=0;
+        int mainMenuChoice=0;
+        int libraryMenuChoice=0;
+        int clientMenuChoice=0;
         int maxClients = 0;
 
         //Prompts the user to run the program or see a demo.
-        System.out.println("Hello user! \nWould you like to run the program or see a demo?" +
+        System.out.println("\nWelcome to the FunReadings LibraryProgram!\nWould you like to run the program or see a demo?" +
             " (Please enter Y to run the program or N to see a demo.) ");
         input = keyIn.next();
         
         if(input.equalsIgnoreCase("y"))
         {
             //Prompts the user to enter the maximum number of items and clients for the library.
-            System.out.println("Welcome to the FunReadings Library!\nTo get started, the inventory space"
+            System.out.println("\nTo get started, the inventory space"
             + " and limit of clients will need to be entered.");
             System.out.print("What is the maximum number of items for your inventory? ");   
             maxItems = keyIn.nextInt();
@@ -50,148 +52,174 @@ public class Driver {
             //A do-while loop that allows the user to interact with the library until they choose to quit.
             do {
                 displayMainMenu();
-                menuChoice = getValidMenuChoice();
+                mainMenuChoice = getValidMainMenuChoice();
 
-                //A switch statement that allows the user to choose an option from 15 options in the main menu.
-                switch(menuChoice)
+                //A switch statement that allows the user to choose an option from 5 options in the main menu.
+                switch(mainMenuChoice)
                 {
                     //Adds an item to the library by calling the addItem method.
                     //The user is prompted to enter the type of item to add and the choice is validated by the getValidItemChoice method.
                     case 1:
-                    
-                        System.out.println("Which item would you like to add? (book, journal, or media)");
-                        itemChoice = getValidItemChoice();
-                        addItem(library, itemChoice);
-                        break;
-                    
-                    //Deletes an item from the library by calling the deleteItem method.
-                    //The user is prompted to enter the ID of the item to delete and the choice is validated by the getValidItemID method.
-                    case 2:
-                        System.out.println("Which item would you like to delete? Please enter its ID.");
-                        itemID = getValidItemID();
-                        deleteItem(library, itemID);
-                        break;
-                    
-                    //Updates the information of an item in the library by calling the updateItem method.
-                    case 3:
-                        System.out.println("Which item would you like to update? Please enter its ID.");
-                        itemID = getValidItemID();
-                        updateItem(library, itemID);
-                        break;
 
-                    //Displays the information of a specific category of items in the library by calling the displayItemInfo method.
-                    case 4:
-                        System.out.println("Which category would you like to list? (book, journal, or media)");
-                        itemChoice = getValidItemChoice();
-                        displayItemInfo(library, itemChoice);
-                        break;
+                        do {
 
-                    //Displays the information of all items in the library by calling the displayLibraryInfo method.
-                    case 5:
-                        displayLibraryInfo(library);
-                        break;
+                            displayLibraryItemMenu();
+                            libraryMenuChoice = getValidLibraryMenuChoice();
 
-                    //Adds a client to the library by calling the addClient method.
-                    case 6:
-                        addClient(clients);
-                        displayClients(clients);
-                        break;
+                            switch(libraryMenuChoice) {
 
-                    //Updates the information of a client in the library by calling the editClient method.
-                    case 7:
-                        editClient(clients);
-                        displayClients(clients);
-                        break;
-
-                    //Deletes a client from the library by calling the deleteClient method.
-                    case 8:
-                        deleteClient(clients);
-                        displayClients(clients);
-                        break;
-                    
-                    //Leases an item to a client by calling the leaseItem method.
-                    //The user is prompted to enter the ID of the client and the choice is validated by the getValidClientIndex method.
-                    case 9:
-                        System.out.println("Which client would you like to lease to? Please enter their ID.");
-                        if(Client.getNumClients() == 0) //If there are no clients in the library, the user is informed.
-                        {
-                            System.out.println("There are no clients in this library.");
+                            case 1:
+                            System.out.println("Which item would you like to add? (book, journal, or media)");
+                            itemChoice = getValidItemChoice();
+                            addItem(library, itemChoice);
                             break;
-                        }
-                        else
-                        {
-                            clientIndex = getValidClientIndex();
-                        }
-                        System.out.println("Which item would you like to lease? Please enter its ID.");
-                        itemID = getValidItemID();
+                        
+                            //Deletes an item from the library by calling the deleteItem method.
+                            //The user is prompted to enter the ID of the item to delete and the choice is validated by the getValidItemID method.
+                            case 2:
+                                System.out.println("Which item would you like to delete? Please enter its ID.");
+                                itemID = getValidItemID();
+                                deleteItem(library, itemID);
+                                break;
+                            
+                            //Updates the information of an item in the library by calling the updateItem method.
+                            case 3:
+                                System.out.println("Which item would you like to update? Please enter its ID.");
+                                itemID = getValidItemID();
+                                updateItem(library, itemID);
+                                break;
 
-                        //The leaseItem method is called with the library and itemID as parameters.
-                        clients[clientIndex].leaseItem(library, itemID);
-                        break;
-                    
-                    //Returns an item from a client by calling the returnItem method.
-                    //The user is prompted to enter the ID of the client and the choice is validated by the getValidClientIndex method.
-                    case 10:
-                        System.out.println("Which client would you like to return the item for? Please enter their ID.");
-                        if(Client.getNumClients() == 0)
-                        {
-                            System.out.println("There are no clients in this library.");
-                            break;
-                        }
-                        else
-                        {
-                            clientIndex = getValidClientIndex();
-                        }
-                        System.out.println("Which item would you like to return? Please enter its ID.");
-                        itemID = getValidItemID();
+                            //Displays the information of a specific category of items in the library by calling the displayItemInfo method.
+                            case 4:
+                                System.out.println("Which category would you like to list? (book, journal, or media)");
+                                itemChoice = getValidItemChoice();
+                                displayItemInfo(library, itemChoice);
+                                break;
 
-                        //The returnItem method is called with the library and itemID as parameters.
-                        clients[clientIndex].returnItem(library, itemID);
-                        break;
-                    
-                    //Displays the items leased by a specific client by calling the displayLeasedItems method.
-                    case 11:
-                        System.out.println("Which client would you like to see the leased items for? Please enter their ID.");
-                        if(Client.getNumClients() == 0)
-                        {
-                            System.out.println("There are no clients in this library.");
-                            break;
-                        }
-                        else
-                        {
-                            clientIndex = getValidClientIndex();
-                        }
-
-                        //The displayLeasedItems method is called.
-                        clients[clientIndex].displayLeasedItems();
-                        break;
-                    
-                    //Displays all the items leased by all clients by calling the displayLeasedItems method.
-                    case 12:
-                        if(Client.getNumClients() == 0)
-                        {
-                            System.out.println("There are no clients in this library.");
-                            break;
-                        }
-                        else
-                        {   //The displayLeasedItems method is called for each client in the clients array.
-                            for(int i = 0; i < clients.length; i++)
-                            {
-                                if(clients[i] != null)
-                                {
-                                    clients[i].displayLeasedItems();
-                                }
+                            //Displays the information of all items in the library by calling the displayLibraryInfo method.
+                            case 5:
+                                displayLibraryInfo(library);
+                                break;
+                            
+                            case 6:
+                                break;
                             }
-                        }
+                        } while(libraryMenuChoice != 6); //The loop continues until the user enters 6 to quit the libraryMenu.
                         break;
+                    
+                    case 2:    
+                        do {
+                            displayClientMenu();
+                            clientMenuChoice = getValidClientMenuChoice();
+                            switch(clientMenuChoice) {
+                                
+                                //Adds a client to the library by calling the addClient method.
+                                case 1:
+                                addClient(clients);
+                                displayClients(clients);
+                                break;
+
+                                //Updates the information of a client in the library by calling the editClient method.
+                                case 2:
+                                    editClient(clients);
+                                    displayClients(clients);
+                                    break;
+
+                                //Deletes a client from the library by calling the deleteClient method.
+                                case 3:
+                                    deleteClient(clients);
+                                    displayClients(clients);
+                                    break;
+                            
+                                //Leases an item to a client by calling the leaseItem method.
+                                //The user is prompted to enter the ID of the client and the choice is validated by the getValidClientIndex method.
+                                case 4:
+                                    System.out.println("Which client would you like to lease to? Please enter their ID.");
+                                    if(Client.getNumClients() == 0) //If there are no clients in the library, the user is informed.
+                                    {
+                                        System.out.println("There are no clients in this library.");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        clientIndex = getValidClientIndex();
+                                    }
+                                    System.out.println("Which item would you like to lease? Please enter its ID.");
+                                    itemID = getValidItemID();
+
+                                    //The leaseItem method is called with the library and itemID as parameters.
+                                    clients[clientIndex].leaseItem(library, itemID);
+                                    break;
+                            
+                                //Returns an item from a client by calling the returnItem method.
+                                //The user is prompted to enter the ID of the client and the choice is validated by the getValidClientIndex method.
+                                case 5:
+                                    System.out.println("Which client would you like to return the item for? Please enter their ID.");
+                                    if(Client.getNumClients() == 0)
+                                    {
+                                        System.out.println("There are no clients in this library.");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        clientIndex = getValidClientIndex();
+                                    }
+                                    System.out.println("Which item would you like to return? Please enter its ID.");
+                                    itemID = getValidItemID();
+
+                                //The returnItem method is called with the library and itemID as parameters.
+                                clients[clientIndex].returnItem(library, itemID);
+                                break;
+                            
+                                //Displays the items leased by a specific client by calling the displayLeasedItems method.
+                                case 6:
+                                    System.out.println("Which client would you like to see the leased items for? Please enter their ID.");
+                                    if(Client.getNumClients() == 0)
+                                    {
+                                        System.out.println("There are no clients in this library.");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        clientIndex = getValidClientIndex();
+                                    }
+
+                                    //The displayLeasedItems method is called.
+                                    clients[clientIndex].displayLeasedItems();
+                                    break;
+                            
+                                //Displays all the items leased by all clients by calling the displayLeasedItems method.
+                                case 7:
+                                    if(Client.getNumClients() == 0)
+                                    {
+                                        System.out.println("There are no clients in this library.");
+                                        break;
+                                    }
+                                    else
+                                    {   //The displayLeasedItems method is called for each client in the clients array.
+                                        for(int i = 0; i < clients.length; i++)
+                                        {
+                                            if(clients[i] != null)
+                                            {
+                                                clients[i].displayLeasedItems();
+                                            }
+                                        }
+                                    }
+                                break;
+                                case 8:
+                                    break;
+                            }
+
+                        } while(clientMenuChoice != 8); //The loop continues until the user enters 8 to quit the clientMenu.     
+                    
                     
                     //Displays the biggest book in the library by calling the getBiggestBook method.
-                    case 13:
+                    case 3:
                         System.out.println(getBiggestBook(library));
                         break;
                     
                     //Displays a copy of the list of books in the library by calling the copyBooks method.
-                    case 14:
+                    case 4:
                         LibraryItem[] books = copyBooks(library);
                         for(int i = 0; i < books.length; i++)
                         {
@@ -203,11 +231,11 @@ public class Driver {
                         break;
                     
                     //Quits the program.
-                    case 15:
+                    case 5:
                         System.out.println("Thank you for using FunReadings Library! Goodbye!");
                         System.exit(0);   
                 }
-            } while (menuChoice != 15); //The loop continues until the user enters 15 to quit the program.
+            } while (mainMenuChoice != 5); //The loop continues until the user enters 15 to quit the program.
 
         }
 
@@ -341,27 +369,71 @@ public class Driver {
 //----The following methods are static methods that are used in the main method to perform various tasks ----//
     
     //Displays the main menu of the program.
-    private static void displayMainMenu() {
-        System.out.print("What would you like to do?\n1) Add an item\n2) Delete an item\n"
-        + "3) Update the information of an item\n4) List all items in a specific category (book, journal, or media)"
-        + "\n5) View all items\n6) Add a client\n7) Update a client's information\n8) Delete a client"
-        + "\n9) Lease an item to a client\n10) Return an item from a client\n11) Show all items leased by a client"
-        + "\n12) Show all leased items(by all clients)\n13) Display the biggest book\n14) Copy list of books\n15) Quit");
+    private static void displayMainMenu() 
+    {
+        System.out.println(" -------------------------");
+        System.out.println("|        MAIN MENU        |");
+        System.out.println(" -------------------------");
+        System.out.println("What would you like to do?\n1) View Library Item Menu\n2) View Clients Menu"
+        +"\n3) Display the biggest book\n4) Copy list of books\n5) Quit");
     }
 
     /*
      * This method gets a valid menu choice from the user.
      * Returns an integer representing the user's choice of menu option.
      */
-    private static int getValidMenuChoice() {
+    private static int getValidMainMenuChoice() 
+    {
         Scanner keyIn = new Scanner(System.in);
         int menuChoice = keyIn.nextInt();
-        while(menuChoice < 1 || menuChoice > 15)
+        while(menuChoice < 1 || menuChoice > 5)
         {
             System.out.println("Invalid input. Please try again.");
             menuChoice = keyIn.nextInt();
         }
         return menuChoice;
+    }
+    
+    private static void displayLibraryItemMenu()
+    {
+        System.out.println(" --------------------------");
+        System.out.println("|     LIBRARY ITEM MENU    |");
+        System.out.println(" --------------------------");
+        System.out.println("What would you like to do?\n1) Add an item\n2) Delete an item\n"
+        + "3) Update the information of an item\n4) List all items in a specific category (book, journal, or media)"
+        + "\n5) View all items\n6) Return to main menu");
+    }
+
+    private static int getValidLibraryMenuChoice() {
+        Scanner keyIn = new Scanner(System.in);
+        int libraryMenuChoice = keyIn.nextInt();
+        while(libraryMenuChoice < 1 || libraryMenuChoice > 6)
+        {
+            System.out.println("Invalid input. Please try again.");
+            libraryMenuChoice = keyIn.nextInt();
+        }
+        return libraryMenuChoice;
+    }
+
+    private static void displayClientMenu()
+    {
+        System.out.println(" -------------------------");
+        System.out.println("|       CLIENT MENU       |");
+        System.out.println(" -------------------------");
+        System.out.println("What would you like to do?\n1) Add a client\n2) Update a client's information\n"
+        + "3) Delete a client\n4) Lease an item to a client\n5) Return an item from a client\n"
+        + "6) Show all items leased by a client\n7) Show all leased items(by all clients)\n8) Return to main menu");
+    }
+
+    private static int getValidClientMenuChoice() {
+        Scanner keyIn = new Scanner(System.in);
+        int clientMenuChoice = keyIn.nextInt();
+        while(clientMenuChoice < 1 || clientMenuChoice > 8)
+        {
+            System.out.println("Invalid input. Please try again.");
+            clientMenuChoice = keyIn.nextInt();
+        }
+        return clientMenuChoice;
     }
 
     /*
@@ -388,9 +460,9 @@ public class Driver {
      */
     private static void addItem(LibraryItem[] library, String itemToAdd){
         Scanner keyIn = new Scanner(System.in);
-        System.out.print("Please enter the name or title. ");
+        System.out.print("Please enter the name or title: ");
         String itemName = keyIn.nextLine();
-        System.out.print("Please enter the year of publication? ");
+        System.out.print("Please enter the year of publication: ");
         int itemYear = keyIn.nextInt();
         
         int indexOfNextItem = library.length - findRemainingSpaces(library); //Finds the index of the next item to add.
@@ -557,7 +629,7 @@ public class Driver {
             switch(updateChoice)
             {
                 case 1: //The user is prompted to enter the new name of the book.
-                    System.out.println("What is the new name of the book?");
+                    System.out.print("What is the new name of the book? ");
                     String newName = keyIn.next();
                     String junkString = keyIn.nextLine(); //A junk string to clear the buffer.
                     for(int i = 0; i < library.length; i++)
@@ -760,7 +832,7 @@ public class Driver {
      */
     public static void displayItemInfo(LibraryItem[] library, String itemChoice) {
         char itemType = itemChoice.charAt(0); //The first character of the itemChoice string.
-        boolean itemFound = true; //A boolean variable that is true if the item is found in the library.
+        boolean itemFound = false; //A boolean variable that is true if the item is found in the library.
 
         //A switch statement that allows the user to choose an option from 3 options in the displayItemInfo method.
         switch(itemType) 
@@ -773,12 +845,13 @@ public class Driver {
                     if(library[i] != null && library[i].getClass() == Book.class) 
                     {
                         System.out.println(library[i].toString());
+                        itemFound=true;
                     }
-                    //If the item is not null and is not a Book object, the itemFound variable is set to false.
-                    else if (library[i] != null && !(library[i].getClass() == Book.class))
-                    {
-                        itemFound = false;
-                    }
+                    // //If the item is not null and is not a Book object, the itemFound variable is set to false.
+                    // else if (library[i] != null && !(library[i].getClass() == Book.class))
+                    // {
+                    //     itemFound = false;
+                    // }
                 }
                 break;
 
@@ -789,12 +862,13 @@ public class Driver {
                     //If the item is not null and is a Journal object, the item is displayed.
                     if(library[i] != null && library[i].getClass() == Journal.class) {
                         System.out.println(library[i].toString());
+                        itemFound=true;
                     }
-                    //If the item is not null and is not a Journal object, the itemFound variable is set to false.
-                    else if (library[i] != null && !(library[i].getClass()== Journal.class))
-                    {
-                        itemFound = false;
-                    }
+                    // //If the item is not null and is not a Journal object, the itemFound variable is set to false.
+                    // else if (library[i] != null && !(library[i].getClass()== Journal.class))
+                    // {
+                    //     itemFound = false;
+                    // }
                 }
               
                 break;
@@ -806,12 +880,13 @@ public class Driver {
                     //If the item is not null and is a Media object, the item is displayed.
                     if(library[i] != null && library[i].getClass()== Media.class) {
                         System.out.println(library[i].toString());
+                        itemFound=true;
                     }
                     //If the item is not null and is not a Media object, the itemFound variable is set to false.
-                    else if (library[i] != null && !(library[i].getClass() == Media.class))
-                    {
-                        itemFound = false;
-                    }
+                    // else if (library[i] != null && !(library[i].getClass() == Media.class))
+                    // {
+                    //     itemFound = false;
+                    // }
                 }
                 break;
 
@@ -1072,7 +1147,7 @@ public class Driver {
      * Returns an array of Book objects.
      */
     private static Book[] copyBooks(LibraryItem[] books) {
-        Boolean isBook = true; //A boolean variable that is true if the item is a book.
+        Boolean isBook = false; //A boolean variable that is true if the item is a book.
         Book[] booksCopy = new Book[books.length]; //An array of Book objects with the same length as the books array.
         
         //A for loop that goes through the books array and copies the books to the booksCopy array.
@@ -1081,13 +1156,18 @@ public class Driver {
             //If the book is not null and is a Book object, the book is copied to the booksCopy array.
             if (books[i] != null && books[i].getClass() == Book.class) 
             {
-                booksCopy[i] = (Book) books[i]; //The book is copied to the booksCopy array.
+                booksCopy[i] = new Book(); //A new Book object is created.
+                //The book's information is copied to the new Book object.
+                booksCopy[i].setName(books[i].getName()); 
+                booksCopy[i].setYearOfPublication(books[i].getYearOfPublication());
+                booksCopy[i].setNumberOfPages(((Book)books[i]).getNumberOfPages());
+                isBook = true; //The isBook variable is set to true.
             }
             //If the book is not null and is not a Book object, the isBook variable is set to false.
-            else if(books[i] != null && books[i].getClass() != Book.class)
-            {
-                isBook = false;
-            }
+            // else if(books[i] != null && books[i].getClass() != Book.class)
+            // {
+            //     isBook = false;
+            // }
         }
         //If the item is not a book, the user is informed that they cannot copy journals or media using this method.
         if(isBook == false)
