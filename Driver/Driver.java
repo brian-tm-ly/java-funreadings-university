@@ -134,7 +134,6 @@ public class Driver {
                                 //Leases an item to a client by calling the leaseItem method.
                                 //The user is prompted to enter the ID of the client and the choice is validated by the getValidClientIndex method.
                                 case 4:
-                                    System.out.println("Which client would you like to lease to? Please enter their ID.");
                                     if(Client.getNumClients() == 0) //If there are no clients in the library, the user is informed.
                                     {
                                         System.out.println("There are no clients in this library.");
@@ -142,6 +141,7 @@ public class Driver {
                                     }
                                     else
                                     {
+                                        System.out.println("Which client would you like to lease to? Please enter their ID.");
                                         clientIndex = getValidClientIndex();
                                     }
                                     System.out.println("Which item would you like to lease? Please enter its ID.");
@@ -154,7 +154,7 @@ public class Driver {
                                 //Returns an item from a client by calling the returnItem method.
                                 //The user is prompted to enter the ID of the client and the choice is validated by the getValidClientIndex method.
                                 case 5:
-                                    System.out.println("Which client would you like to return the item for? Please enter their ID.");
+                                   
                                     if(Client.getNumClients() == 0)
                                     {
                                         System.out.println("There are no clients in this library.");
@@ -162,18 +162,27 @@ public class Driver {
                                     }
                                     else
                                     {
+                                        System.out.println("Which client would you like to return the item for? Please enter their ID.");
                                         clientIndex = getValidClientIndex();
                                     }
-                                    System.out.println("Which item would you like to return? Please enter its ID.");
-                                    itemID = getValidItemID();
-
-                                //The returnItem method is called with the library and itemID as parameters.
-                                clients[clientIndex].returnItem(library, itemID);
+                                    //If the client has no items leased, the user is informed.
+                                    if(clients[clientIndex].getNumLeasedItems()==0)
+                                    {
+                                        System.out.println("This client has no items leased.");
+                                        break;
+                                    }
+                                    else //If the client has items leased, the user is prompted to enter the ID of the item to return.
+                                    {
+                                        System.out.println("Which item would you like to return? Please enter its ID.");
+                                        itemID = getValidItemID();
+                                        //The returnItem method is called with the library and itemID as parameters.
+                                        clients[clientIndex].returnItem(library, itemID);
+                                    }
                                 break;
                             
                                 //Displays the items leased by a specific client by calling the displayLeasedItems method.
                                 case 6:
-                                    System.out.println("Which client would you like to see the leased items for? Please enter their ID.");
+                                    
                                     if(Client.getNumClients() == 0)
                                     {
                                         System.out.println("There are no clients in this library.");
@@ -181,6 +190,7 @@ public class Driver {
                                     }
                                     else
                                     {
+                                        System.out.println("Which client would you like to see the leased items for? Please enter their ID.");
                                         clientIndex = getValidClientIndex();
                                     }
 
@@ -205,14 +215,15 @@ public class Driver {
                                             }
                                         }
                                     }
-                                break;
+                                    break;
+
                                 case 8:
                                     break;
                             }
 
                         } while(clientMenuChoice != 8); //The loop continues until the user enters 8 to quit the clientMenu.     
                     
-                    
+                        break;
                     //Displays the biggest book in the library by calling the getBiggestBook method.
                     case 3:
                         System.out.println(getBiggestBook(library));
@@ -242,7 +253,7 @@ public class Driver {
         //If the user chooses to see a demo, the program runs a pre-defined scenario.
         else if(input.equalsIgnoreCase("n"))
         {
-            System.out.println("Welcome to the FunReadings Library Demo! The inventory space "
+            System.out.println("\nWelcome to the FunReadings Library Demo! \nThe inventory space "
             + "and limit of clients have been automatically set to 100, respectively.");
             maxItems = 100;
             LibraryItem[] library = new LibraryItem[maxItems]; //Creates an array of LibraryItem objects with 100 spaces.
@@ -286,7 +297,7 @@ public class Driver {
             {
                 System.out.println(media[i]);
             }
-
+            System.out.println("Comparing the books, journals, and media items in the library.");
             //Tests the equals method for each object.
             if(book1.equals(book2))
             {
@@ -347,15 +358,15 @@ public class Driver {
             System.out.println("\n"+getBiggestBook(libraryDemo));
 
             //Tests the copyBooks method on the Media array.
+            System.out.println("\nAttempting to copy the list of media items in the library.");
             LibraryItem[] booksCopy = copyBooks(media);
             for(int i = 0; i < booksCopy.length; i++)
             {
                 if(booksCopy[i] != null)
                     System.out.println(booksCopy[i]);
             }
-            
         }
-        
+
         //If the user enters an invalid input, the program will prompt the user to try again.
         else
         {
@@ -464,6 +475,11 @@ public class Driver {
         String itemName = keyIn.nextLine();
         System.out.print("Please enter the year of publication: ");
         int itemYear = keyIn.nextInt();
+        while(itemYear <0 || itemYear > 2024)
+        {
+            System.out.println("Invalid input. Please try again.");
+            itemYear = keyIn.nextInt();
+        }
         
         int indexOfNextItem = library.length - findRemainingSpaces(library); //Finds the index of the next item to add.
 
@@ -962,9 +978,9 @@ public class Driver {
      */
     private static void addClient(Client[] clients) {
         Scanner keyIn = new Scanner(System.in);
-        System.out.print("Please enter the name of the client. "); 
+        System.out.print("Please enter the name of the client: "); 
         String clientName = keyIn.nextLine();
-        System.out.print("Please enter the phone number of the client. ");
+        System.out.print("Please enter the phone number of the client: ");
 
         //The user is prompted to enter a valid phone number.
         while(!keyIn.hasNextLong())
@@ -973,7 +989,7 @@ public class Driver {
             keyIn.nextLong();
         }
         long clientPhone = keyIn.nextLong();
-        System.out.print("Please enter the email of the client. ");
+        System.out.print("Please enter the email of the client: ");
         String clientEmail = keyIn.next();
 
         //The index of the next client is calculated based on the number of clients in the clients array.
@@ -996,9 +1012,9 @@ public class Driver {
      * Takes the parameter clients: The array of Client objects.
      */
     private static void editClient(Client[] clients) {
-        System.out.print("Which client would you like to update? Please enter their ID. ");
+       
         Scanner keyIn = new Scanner(System.in);
-        String clientID = getValidClientID();
+        String clientID = "";
         int updateChoice = 0;
 
         //If there are no clients in the library, the user is informed.
@@ -1009,6 +1025,8 @@ public class Driver {
         //If there are clients in the library, the user is prompted to enter the ID of the client to update.
         else
         {
+            System.out.print("Which client would you like to update? Please enter their ID. ");
+            clientID = getValidClientID();
             for(int i = 0; i < clients.length; i++)
             {
                 //If the clientID is found in the clients array, the user is prompted to choose an option from the updateClientMenu.
@@ -1064,9 +1082,9 @@ public class Driver {
      * Takes the parameter clients: The array of Client objects.
      */
     private static void deleteClient(Client[] clients) {
-        System.out.print("Which client would you like to delete? Please enter their ID. ");
+        
         Scanner keyIn = new Scanner(System.in);
-        String clientID = getValidClientID();
+        String clientID = "";
         Client[] newClients = new Client[clients.length]; //A new array of Client objects.
         int j =0; //A counter variable.
 
@@ -1078,6 +1096,8 @@ public class Driver {
         //If there are clients in the library, the user is prompted to enter the ID of the client to delete.        
         else
         {
+            System.out.print("Which client would you like to delete? Please enter their ID: ");
+            clientID = getValidClientID();
             //A for loop that goes through the clients array and deletes the client with the given clientID.
             for(int i = 0; i < clients.length; i++)
             {
@@ -1085,13 +1105,17 @@ public class Driver {
                 {
                     if(clientID.equals(clients[i].getClientID()))
                     {
-                        if(!(clients[i].getLeasedItems().equals("")))
+                        if(clients[i].getNumLeasedItems()!=0)
                         {
                             System.out.println("This client has leased items. You cannot delete this client.");
                             break;
                         }
-                        clients[i] = null; //The client is deleted from the clients array.
-                        System.out.println("Client has been deleted. Here are the clients in the library.");
+                        else
+                        {
+                            clients[i] = null; //The client is deleted from the clients array.
+                            System.out.println("Client has been deleted. Here are the clients in the library.");
+                        }
+                        
                     }
                 }
             }
