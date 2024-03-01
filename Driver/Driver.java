@@ -57,8 +57,7 @@ public class Driver {
                 //A switch statement that allows the user to choose an option from 5 options in the main menu.
                 switch(mainMenuChoice)
                 {
-                    //Adds an item to the library by calling the addItem method.
-                    //The user is prompted to enter the type of item to add and the choice is validated by the getValidItemChoice method.
+                    //Displays the libraryItemMenu.
                     case 1:
 
                         do {
@@ -67,7 +66,9 @@ public class Driver {
                             libraryMenuChoice = getValidLibraryMenuChoice();
 
                             switch(libraryMenuChoice) {
-
+                            
+                            //Adds an item to the library by calling the addItem method.
+                            //The user is prompted to enter the type of item to add and the choice is validated by the getValidItemChoice method.    
                             case 1:
                             System.out.println("Which item would you like to add? (book, journal, or media)");
                             itemChoice = getValidItemChoice();
@@ -100,13 +101,14 @@ public class Driver {
                             case 5:
                                 displayLibraryInfo(library);
                                 break;
-                            
+                            //Quits the libraryMenu.
                             case 6:
                                 break;
                             }
                         } while(libraryMenuChoice != 6); //The loop continues until the user enters 6 to quit the libraryMenu.
                         break;
                     
+                    //Displays the clientMenu.    
                     case 2:    
                         do {
                             displayClientMenu();
@@ -216,7 +218,7 @@ public class Driver {
                                         }
                                     }
                                     break;
-
+                                //Quits the clientMenu.        
                                 case 8:
                                     break;
                             }
@@ -224,6 +226,7 @@ public class Driver {
                         } while(clientMenuChoice != 8); //The loop continues until the user enters 8 to quit the clientMenu.     
                     
                         break;
+                    
                     //Displays the biggest book in the library by calling the getBiggestBook method.
                     case 3:
                         System.out.println(getBiggestBook(library));
@@ -863,11 +866,6 @@ public class Driver {
                         System.out.println(library[i].toString());
                         itemFound=true;
                     }
-                    // //If the item is not null and is not a Book object, the itemFound variable is set to false.
-                    // else if (library[i] != null && !(library[i].getClass() == Book.class))
-                    // {
-                    //     itemFound = false;
-                    // }
                 }
                 break;
 
@@ -880,11 +878,6 @@ public class Driver {
                         System.out.println(library[i].toString());
                         itemFound=true;
                     }
-                    // //If the item is not null and is not a Journal object, the itemFound variable is set to false.
-                    // else if (library[i] != null && !(library[i].getClass()== Journal.class))
-                    // {
-                    //     itemFound = false;
-                    // }
                 }
               
                 break;
@@ -898,11 +891,6 @@ public class Driver {
                         System.out.println(library[i].toString());
                         itemFound=true;
                     }
-                    //If the item is not null and is not a Media object, the itemFound variable is set to false.
-                    // else if (library[i] != null && !(library[i].getClass() == Media.class))
-                    // {
-                    //     itemFound = false;
-                    // }
                 }
                 break;
 
@@ -1170,39 +1158,58 @@ public class Driver {
      * Takes the parameter books: The array of LibraryItem objects.
      * Returns an array of Book objects.
      */
-    private static Book[] copyBooks(LibraryItem[] books) {
+    private static LibraryItem[] copyBooks(LibraryItem[] items) {
         Boolean isBook = false; //A boolean variable that is true if the item is a book.
-        Book[] booksCopy = new Book[books.length]; //An array of Book objects with the same length as the books array.
-        
-        //A for loop that goes through the books array and copies the books to the booksCopy array.
-        for (int i = 0; i < books.length; i++) 
+        Boolean isJournal = false; //A boolean variable that is true if the item is a journal.
+        Boolean isMedia = false; //A boolean variable that is true if the item is a media item.
+        LibraryItem[] libraryCopy = new LibraryItem[items.length]; //An array of LibraryItem objects with the same length as the books array.
+
+        for(int i = 0; i < items.length; i++)
         {
-            //If the book is not null and is a Book object, the book is copied to the booksCopy array.
-            if (books[i] != null && books[i].getClass() == Book.class) 
+            if(items[i] != null && items[i].getClass() == Book.class)
             {
-                booksCopy[i] = new Book(); //A new Book object is created.
+                libraryCopy[i] = new Book(); //A new Book object is created.
                 //The book's information is copied to the new Book object.
-                booksCopy[i].setName(books[i].getName()); 
-                booksCopy[i].setYearOfPublication(books[i].getYearOfPublication());
-                booksCopy[i].setNumberOfPages(((Book)books[i]).getNumberOfPages());
+                libraryCopy[i].setName(items[i].getName()); 
+                libraryCopy[i].setYearOfPublication(items[i].getYearOfPublication());
+                ((Book)libraryCopy[i]).setNumberOfPages(((Book)items[i]).getNumberOfPages());
                 isBook = true; //The isBook variable is set to true.
             }
-            //If the book is not null and is not a Book object, the isBook variable is set to false.
-            // else if(books[i] != null && books[i].getClass() != Book.class)
-            // {
-            //     isBook = false;
-            // }
+            else if (items[i] !=null && items[i].getClass() == Journal.class)
+            {
+                libraryCopy[i] = new Journal(); //A new Journal object is created.
+                //The journal's information is copied to the new Journal object.
+                libraryCopy[i].setName(items[i].getName()); 
+                libraryCopy[i].setYearOfPublication(items[i].getYearOfPublication());
+                ((Journal)libraryCopy[i]).setVolumeNum(((Journal)items[i]).getVolumeNum());
+                isJournal = true;
+            }
+            else if (items[i] !=null && items[i].getClass() == Media.class)
+            {
+                libraryCopy[i] = new Media(); //A new Media object is created.
+                //The media's information is copied to the new Media object.
+                libraryCopy[i].setName(items[i].getName()); 
+                libraryCopy[i].setYearOfPublication(items[i].getYearOfPublication());
+                ((Media)libraryCopy[i]).setType(((Media)items[i]).getType());
+                isMedia = true;
+            }
         }
-        //If the item is not a book, the user is informed that they cannot copy journals or media using this method.
-        if(isBook == false)
+
+        //If the item is not a book, the user is informed but the copy of the items is still returned.
+        if(isBook == true)
         {
-            System.out.println("Cannot copy journals or media using this method.");
+            System.out.println("Here is a copy of the books in the library:");
+        
         }
-        else
+        else if (isJournal == true)
         {
-            System.out.println("Here is a copy of the books in the library.");
+            System.out.println("This is not a copy of books. Here is a copy of journals:");
         }
-        return booksCopy;
+        else if(isMedia == true)
+        {
+            System.out.println("This is not a copy of books. Here is a copy of media items:");
+        }
+        return libraryCopy;
         
     }
 
@@ -1272,6 +1279,5 @@ public class Driver {
             }
         }
     }
- 
     
 }

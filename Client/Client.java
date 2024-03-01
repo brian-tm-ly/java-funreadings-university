@@ -154,10 +154,12 @@ public class Client {
      */
     public void leaseItem(LibraryItem[] library, String itemID)
     {   
-        LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length + 1];
-        LibraryItem[] availableLibrary = new LibraryItem[library.length];
+        
+        LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length + 1]; // Create a new array to store the leased items
+        LibraryItem[] availableLibrary = new LibraryItem[library.length]; // Create a new array to store the available items
         LibraryItem leasedItem = null;
        
+        // Copy the leased items into the new array if there are any
         if (leasedItems.length != 0)
         {
             for(int i = 0; i < leasedItems.length; i++)
@@ -165,7 +167,7 @@ public class Client {
                 newLeasedItems[i] = leasedItems[i];
             }
         }
-       
+        // Lease the item depending on the type
         if (itemID.charAt(0) == 'B')
         {
             if(Book.getNumBooks() == 0)
@@ -173,15 +175,15 @@ public class Client {
                 System.out.println("There are no books to lease.");
             }
             else
-            {
+            {   // Find the item in the library and lease it
                 for(int i = 0; i < library.length; i++)
                 {
                     if(library[i] != null && library[i].getID().equals(itemID))
                     {
                         leasedItem = library[i];
-                        library[i] = null;
-                        newLeasedItems[newLeasedItems.length-1] = leasedItem;
-                        leasedItems = newLeasedItems;
+                        library[i] = null; // Set the item in the library to null
+                        newLeasedItems[newLeasedItems.length-1] = leasedItem; // Add the item to the leased items
+                        leasedItems = newLeasedItems; // Set the leased items to the new array
                     }
                 }
             }
@@ -249,17 +251,19 @@ public class Client {
      */
     public void returnItem(LibraryItem[] library, String itemID)
     {
-        
         LibraryItem returnedItem = null;
-        LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length];
+        LibraryItem[] newLeasedItems = new LibraryItem[leasedItems.length]; // Create a new array to store the leased items
         
+        // Check if the client has any leased items
         if(leasedItems.length == 0)
         {
             System.out.println("This client has no leased items.");
         }
+        // Find the item in the leased items and return it
         else
-        {
-            newLeasedItems = new LibraryItem[leasedItems.length - 1];
+        {  
+            newLeasedItems = new LibraryItem[leasedItems.length - 1]; // Create a new array to store the leased items
+            // Copy the leased items into the new array if there are any
             for(int i = 0; i < leasedItems.length; i++)
             {
                 if(leasedItems[i].getID().equals(itemID))
@@ -272,11 +276,12 @@ public class Client {
                     newLeasedItems[i] = leasedItems[i];
                 }
             }
+            // Find the first null spot in the library and add the returned item based on item type
             if (itemID.charAt(0) == 'B')
             {
                 for(int i = 0; i < library.length; i++)
                 {
-                    if(library[i] == null)
+                    if(library[i] == null) 
                     {
                         library[i] = returnedItem;
                         break;
@@ -305,7 +310,7 @@ public class Client {
                     }
                 }
             } 
-            leasedItems = newLeasedItems;
+            leasedItems = newLeasedItems; // Set the leased items to the new array
         }
     }
 
@@ -319,16 +324,16 @@ public class Client {
             System.out.println("Client " + getClientID() +  " has no leased items.");
         }
         else
-        {
+        {   // Create a string of the leased items
             for(int i = 0; i < leasedItems.length; i++)
             {
                 if (i == leasedItems.length - 1) 
                 {
-                    leasedItemsString += leasedItems[i].getName();
+                    leasedItemsString += leasedItems[i].getName();// Don't add a comma if it's the last item
                 } 
                 else 
                 {
-                    leasedItemsString += leasedItems[i].getName() + ", ";
+                    leasedItemsString += leasedItems[i].getName() + ", "; // Add a comma if there are more items
                 }
             }
             System.out.println("Client " + getClientID() + " has leased the following items:\n" + leasedItemsString);
