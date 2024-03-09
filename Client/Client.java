@@ -270,6 +270,7 @@ public class Client {
                 {
                     returnedItem = leasedItems[i];
                     leasedItems[i] = null;
+                    break;
                 }
                 else if(leasedItems[i] != null)
                 {
@@ -327,7 +328,7 @@ public class Client {
         {   // Create a string of the leased items
             for(int i = 0; i < leasedItems.length; i++)
             {
-                if (i == leasedItems.length - 1) 
+                if (i == leasedItems.length - 1 && leasedItems[i] != null) 
                 {
                     leasedItemsString += leasedItems[i].getName();// Don't add a comma if it's the last item
                 } 
