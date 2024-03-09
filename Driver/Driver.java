@@ -649,8 +649,8 @@ public class Driver {
             {
                 case 1: //The user is prompted to enter the new name of the book.
                     System.out.print("What is the new name of the book? ");
-                    String newName = keyIn.next();
                     String junkString = keyIn.nextLine(); //A junk string to clear the buffer.
+                    String newName = keyIn.nextLine();
                     for(int i = 0; i < library.length; i++)
                     {
                         if(library[i] != null)
@@ -717,8 +717,8 @@ public class Driver {
                 {
                     case 1: //The user is prompted to enter the new name of the journal.
                         System.out.print("What is the new name of the journal? ");
-                        String newName = keyIn.next();
                         String junkString = keyIn.nextLine();
+                        String newName = keyIn.nextLine();
                         for(int i = 0; i < library.length; i++)
                         {
                             if(library[i] != null)
@@ -786,8 +786,8 @@ public class Driver {
                 {
                     case 1: //The user is prompted to enter the new name of the media item.
                         System.out.print("What is the new name of the media? ");
-                        String newName = keyIn.next();
                         String junkString = keyIn.nextLine();
+                        String newName = keyIn.nextLine();
                         for(int i = 0; i < library.length; i++)
                         {
                             if(library[i] != null)
