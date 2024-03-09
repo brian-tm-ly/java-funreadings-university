@@ -300,7 +300,7 @@ public class Driver {
             {
                 System.out.println(media[i]);
             }
-            System.out.println("Comparing the books, journals, and media items in the library.");
+            System.out.println("\nComparing the books, journals, and media items in the library.");
             //Tests the equals method for each object.
             if(book1.equals(book2))
             {
